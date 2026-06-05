@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Boi Nobre - Cardápio Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family:'Montserrat',sans-serif;
+            background-color:#fef7e6;
+            color:#2c2418;
+            line-height:1.3;
+            padding-bottom:100px;
+        }
+        .header {
+            background:linear-gradient(135deg,#2b1e12 0%,#3d2a1a 100%);
+            color:#f3d382;
+            padding:1rem;
+            text-align:center;
+            border-bottom:3px solid #c9a03d;
+        }
+        .logo-container {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex-wrap:wrap;
+            gap:0.8rem;
+            margin-bottom:0.3rem;
+        }
+        .titulo h1 {
+            font-family:'Playfair Display',serif;
+            font-size:1.4rem;
+            letter-spacing:1px;
+            color:#f3d382;
+        }
+        .titulo p { font-size:0.8rem; color:#e6c87a; }
+        .tabs-nav {
+            background-color:#3e2a1f;
+            display:flex;
+            justify-content:center;
+            flex-wrap:wrap;
+            gap:0.5rem;
+            padding:0.75rem 1rem;
+            border-bottom:1px solid #c9a03d;
+            position:sticky;
+            top:0;
+            z-index:1000;
+        }
+        .tab-btn {
+            background:transparent;
+            border:none;
+            font-weight:600;
+            font-size:0.85rem;
+            padding:0.5rem 1rem;
+            border-radius:40px;
+            cursor:pointer;
+            color:#f3dba6;
+            transition:0.2s;
+            white-space:nowrap;
+        }
+        .tab-btn i { margin-right:6px; }
+        .tab-btn:hover { background-color:#5a3e2c; color:#ffeaac; }
+        .tab-btn.active { background-color:#c9a03d; color:#2c1a0c; box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+        .tab-content { display:none; padding:1rem 0.8rem; animation:fade 0.25s ease; }
+        .tab-content.active { display:block; }
+        @keyframes fade { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+        .section-title {
+            font-family:'Playfair Display',serif;
+            font-size:1.8rem;
+            font-weight:800;
+            color:#3d2a1a;
+            text-align:center;
+            margin-bottom:1.2rem;
+            border-bottom:2px solid #c9a03d;
+            display:inline-block;
+            padding-bottom:0.2rem;
+            scroll-margin-top: 80px;
+        }
+        .title-wrapper { text-align:center; margin-bottom:0.8rem; }
+        .products-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+            gap:0.8rem;
+            max-width:1200px;
+            margin:0 auto;
+        }
+        .product-card {
+            background:#fff;
+            border-radius:18px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.06);
+            border:1px solid #e9dbba;
+            transition:0.2s;
+        }
+        .product-card:hover { transform:translateY(-2px); box-shadow:0 6px 12px rgba(0,0,0,0.1); }
+        .card-inner { padding:0.35rem; }
+        .product-name {
+            font-size:0.9rem;
+            font-weight:700;
+            margin-bottom:0.1rem;
+            display:flex;
+            justify-content:space-between;
+            flex-wrap:wrap;
+            color:#2b1f14;
+        }
+        .product-name span:first-child {
+            background:#fef1cf;
+            padding:0.05rem 0.4rem;
+            border-radius:30px;
+            font-size:0.6rem;
+            font-weight:600;
+            color:#8b5a2b;
+        }
+        .product-desc { font-size:0.65rem; color:#6b5a48; margin:0.1rem 0 0.2rem; min-height:20px; line-height:1.2; }
+        .product-price { font-size:0.9rem; font-weight:800; color:#b85c1a; margin:0.1rem 0; }
+        .product-price small { font-size:0.6rem; font-weight:500; color:#886e4b; }
+        .product-total {
+            font-size:0.75rem;
+            font-weight:700;
+            background:#fef1cf;
+            display:inline-block;
+            padding:0.1rem 0.5rem;
+            border-radius:30px;
+            margin:0.15rem 0;
+            color:#2c1a0c;
+        }
+        .quantity-control {
+            margin:0.2rem 0 0.3rem;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:0.4rem;
+            background:#f9f5ea;
+            padding:0.15rem 0.4rem;
+            border-radius:40px;
+        }
+        .quantity-control label { font-size:0.65rem; font-weight:600; color:#5c3e2a; }
+        .quantity-control input {
+            width:65px;
+            padding:0.15rem 0.2rem;
+            border:1px solid #d4bf9a;
+            border-radius:30px;
+            text-align:center;
+            font-weight:600;
+            font-size:0.7rem;
+        }
+        .btn-whatsapp {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:4px;
+            background-color:#25d366;
+            color:white;
+            border:none;
+            padding:0.2rem 0.4rem;
+            border-radius:40px;
+            font-weight:600;
+            font-size:0.7rem;
+            width:100%;
+            cursor:pointer;
+        }
+        .btn-whatsapp:hover { background-color:#128C7E; }
+        .toggle-products-btn {
+            display:block;
+            margin:1.2rem auto 0;
+            background-color:#c9a03d;
+            color:#2c1a0c;
+            border:none;
+            padding:0.5rem 1.2rem;
+            border-radius:40px;
+            font-weight:600;
+            cursor:pointer;
+            font-size:0.85rem;
+        }
+        .products-grid-hidden { display:none; margin-top:0.8rem; }
+        .products-grid-hidden.show { display:grid; }
+        .ads-container {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:1.2rem;
+            margin-top:1.5rem;
+            max-width:900px;
+            margin-left:auto;
+            margin-right:auto;
+        }
+        .ad-card {
+            background:linear-gradient(145deg,#fff7e8,#fff0db);
+            border-radius:20px;
+            padding:1rem 0.8rem;
+            text-align:center;
+            border:2px dashed #c9a03d;
+        }
+        .ad-card i { font-size:1.6rem; color:#b85c1a; margin-bottom:0.3rem; }
+        .ad-card h4 { font-weight:800; color:#3d2a1a; margin-bottom:0.2rem; font-size:0.9rem; }
+        .ad-card p { font-size:0.7rem; color:#5c3e2a; }
+        .ad-phone {
+            display:inline-flex;
+            align-items:center;
+            gap:5px;
+            background-color:#25d366;
+            color:white;
+            text-decoration:none;
+            padding:0.3rem 0.8rem;
+            border-radius:40px;
+            font-weight:600;
+            font-size:0.7rem;
+            margin-top:0.4rem;
+        }
+        footer {
+            background-color:#1e1510;
+            color:#ddc8a8;
+            padding:1rem 1rem 1.5rem;
+            margin-top:2rem;
+            position:relative;
+        }
+        .footer-container {
+            display:flex;
+            flex-wrap:wrap;
+            gap:1rem;
+            max-width:1000px;
+            margin:0 auto;
+        }
+        .footer-col { flex:1; min-width:150px; }
+        .footer-col h4 { color:#eace8c; margin-bottom:0.4rem; font-size:0.85rem; }
+        .footer-col p, .footer-col a { color:#ccb88a; text-decoration:none; font-size:0.65rem; display:block; }
+        .copyright { text-align:center; border-top:1px solid #3f2d1f; padding-top:1rem; margin-top:1rem; font-size:0.6rem; }
+        .float-whatsapp {
+            position:fixed;
+            bottom:20px;
+            right:20px;
+            background-color:#25d366;
+            color:white;
+            border-radius:50%;
+            width:55px;
+            height:55px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:1.8rem;
+            z-index:1000;
+            text-decoration:none;
+        }
+        /* Botão Meu Pedido DESTACADO */
+        .btn-meu-pedido {
+            position:fixed;
+            bottom:20px;
+            left:20px;
+            background: linear-gradient(135deg, #e6b422 0%, #c99c2e 100%);
+            color:#2c1a0c;
+            border:none;
+            padding:0.7rem 1.4rem;
+            border-radius:50px;
+            font-weight:800;
+            font-size:1rem;
+            box-shadow:0 6px 16px rgba(0,0,0,0.25);
+            cursor:pointer;
+            z-index:1000;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            transition:0.2s;
+            letter-spacing:0.5px;
+            border:1px solid rgba(255,215,0,0.5);
+        }
+        .btn-meu-pedido i { font-size:1.2rem; }
+        .btn-meu-pedido:hover {
+            background: linear-gradient(135deg, #f5c542 0%, #daae3a 100%);
+            transform:scale(1.03);
+            box-shadow:0 8px 20px rgba(0,0,0,0.3);
+        }
+        .dicas-container {
+            max-width:900px;
+            margin:1.2rem auto;
+            padding:0 1rem;
+        }
+        .dicas-titulo {
+            font-family:'Playfair Display',serif;
+            font-size:1.4rem;
+            text-align:center;
+            color:#3d2a1a;
+            margin-bottom:0.8rem;
+        }
+        .dicas-grid {
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:0.6rem;
+        }
+        .dica-card {
+            background:#fff;
+            border-radius:24px;
+            padding:0.5rem 0.4rem;
+            text-align:center;
+            cursor:pointer;
+            transition:0.2s;
+            box-shadow:0 2px 6px rgba(0,0,0,0.05);
+            border:1px solid #e9dbba;
+        }
+        .dica-card i { font-size:1.3rem; color:#b85c1a; margin-bottom:0.2rem; }
+        .dica-card h3 { font-size:0.85rem; font-weight:700; color:#2c2418; margin-bottom:0.1rem; }
+        .dica-card p { font-size:0.65rem; color:#6b5a48; }
+        .dica-card:hover { transform:translateY(-3px); background:#fff7e8; border-color:#c9a03d; }
+        .modal-dicas, .modal-pedido {
+            position:fixed;
+            top:0; left:0;
+            width:100%; height:100%;
+            background-color:rgba(0,0,0,0.7);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            z-index:2001;
+            visibility:hidden;
+            opacity:0;
+            transition:visibility 0s, opacity 0.3s;
+        }
+        .modal-dicas.active, .modal-pedido.active { visibility:visible; opacity:1; }
+        .modal-dicas-container, .modal-pedido-container {
+            background:#fffaf0;
+            border-radius:28px;
+            max-width:650px;
+            width:90%;
+            padding:1.2rem;
+            max-height:90vh;
+            overflow-y:auto;
+        }
+        .modal-dicas-header, .modal-pedido-header {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:0.8rem;
+            border-bottom:1px solid #c9a03d;
+            padding-bottom:0.4rem;
+        }
+        .modal-dicas-header h3, .modal-pedido-header h3 { font-size:1.3rem; font-family:'Playfair Display',serif; color:#3d2a1a; }
+        .close-dicas, .close-pedido { font-size:1.6rem; cursor:pointer; color:#8b5a2b; }
+        .lista-carnes {
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+            gap:0.6rem;
+            margin-bottom:1rem;
+            max-height:260px;
+            overflow-y:auto;
+            padding-right:0.3rem;
+        }
+        .carne-item {
+            background:#fff;
+            border-radius:18px;
+            padding:0.4rem;
+            border:1px solid #e9dbba;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .carne-info strong { font-size:0.8rem; display:block; }
+        .carne-info span { font-size:0.7rem; color:#b85c1a; font-weight:bold; }
+        .btn-selecionar-carne {
+            background:#c9a03d;
+            border:none;
+            padding:0.2rem 0.6rem;
+            border-radius:30px;
+            font-size:0.65rem;
+            font-weight:600;
+            cursor:pointer;
+        }
+        .selecao-area { background:#f9f5ea; padding:0.8rem; border-radius:20px; margin:0.8rem 0; }
+        .selecao-area label { font-weight:600; display:block; margin:0.4rem 0 0.2rem; font-size:0.75rem; }
+        .selecao-area input, .selecao-area select {
+            width:100%;
+            padding:0.4rem;
+            border-radius:40px;
+            border:1px solid #d4bf9a;
+            font-family:inherit;
+            font-size:0.75rem;
+        }
+        .linha-flex { display:flex; gap:0.4rem; align-items:center; }
+        .btn-lixeira { background:transparent; border:none; font-size:1rem; cursor:pointer; color:#b85c1a; margin-left:0.3rem; }
+        .btn-enviar-dica, .btn-finalizar-pedido { background-color:#25d366; color:white; width:100%; padding:0.5rem; border-radius:40px; font-weight:bold; border:none; margin-top:0.4rem; cursor:pointer; font-size:0.8rem; }
+        .btn-escolher-mais { background-color:#c9a03d; color:#2c1a0c; width:100%; padding:0.5rem; border-radius:40px; font-weight:bold; border:none; margin-top:0.5rem; cursor:pointer; font-size:0.8rem; }
+        .lista-itens-pedido {
+            max-height:260px;
+            overflow-y:auto;
+            margin-bottom:0.8rem;
+        }
+        .item-pedido {
+            background:white;
+            border-radius:18px;
+            padding:0.5rem;
+            margin-bottom:0.6rem;
+            border:1px solid #e9dbba;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            flex-wrap:wrap;
+        }
+        .item-info { flex:1; }
+        .item-info strong { display:block; font-size:0.8rem; }
+        .item-info small { font-size:0.65rem; color:#886e4b; }
+        .item-acoes button {
+            background:transparent;
+            border:none;
+            font-size:1rem;
+            cursor:pointer;
+            margin-left:6px;
+            color:#b85c1a;
+        }
+        .total-pedido { font-weight:bold; text-align:right; margin:0.8rem 0; font-size:1rem; border-top:1px solid #d4bf9a; padding-top:0.4rem; }
+        .form-pedido-campos {
+            background:#f9f5ea;
+            border-radius:20px;
+            padding:0.8rem;
+            margin:0.5rem 0 0.8rem;
+        }
+        .form-group-custom {
+            margin-bottom:0.7rem;
+        }
+        .form-group-custom label {
+            font-weight:600;
+            display:block;
+            margin-bottom:0.2rem;
+            font-size:0.75rem;
+        }
+        .form-group-custom input, .form-group-custom select {
+            width:100%;
+            padding:0.4rem;
+            border-radius:40px;
+            border:1px solid #d4bf9a;
+            font-family:inherit;
+            background:white;
+            font-size:0.75rem;
+        }
+        .conditional-field {
+            transition:0.2s;
+            margin-top:0.3rem;
+        }
+        @media (max-width:680px) {
+            .products-grid { grid-template-columns:1fr; }
+            .dicas-grid { gap:0.5rem; }
+            .ads-container { gap:0.8rem; }
+            .btn-meu-pedido { bottom:15px; left:15px; padding:0.5rem 1rem; font-size:0.9rem; }
+            .float-whatsapp { bottom:15px; right:15px; width:48px; height:48px; font-size:1.5rem; }
+            .modal-pedido-container { max-width:95%; padding:0.8rem; }
+        }
+        @media (max-width:480px) {
+            .dica-card { padding:0.4rem 0.3rem; }
+            .dica-card h3 { font-size:0.8rem; }
+            .dica-card i { font-size:1.1rem; }
+        }
+        .modal-overlay {
+            position:fixed;
+            top:0; left:0;
+            width:100%; height:100%;
+            background:rgba(0,0,0,0.7);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            z-index:2000;
+            visibility:hidden;
+            opacity:0;
+            transition:0.3s;
+        }
+        .modal-overlay.active { visibility:visible; opacity:1; }
+        .modal-container {
+            background:#fffaf0;
+            border-radius:28px;
+            max-width:500px;
+            width:90%;
+            padding:1.2rem;
+        }
+        .close-modal { float:right; font-size:1.6rem; cursor:pointer; }
+        .form-group { margin-bottom:0.8rem; }
+        .form-group label { font-weight:600; display:block; font-size:0.75rem; }
+        .form-group input, .form-group select { width:100%; padding:0.4rem; border-radius:40px; border:1px solid #d4bf9a; font-size:0.75rem; }
+        .btn-modal-submit { background:#25d366; color:white; width:100%; padding:0.4rem; border-radius:40px; border:none; font-weight:bold; margin-top:0.4rem; font-size:0.8rem; }
+        .info-text { font-size:0.65rem; text-align:center; margin-top:0.4rem; }
+        .moida-placeholder { text-align:center; padding:1.5rem; background:#fff4e4; border-radius:40px; max-width:500px; margin:auto; }
+        .custom-meat-group { border-top: 1px dashed #c9a03d; margin-top: 0.8rem; padding-top: 0.8rem; display: none; }
+        .custom-meat-group.show { display: block; }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="logo-container">
+        <div class="titulo">
+            <h1>CASA DE CARNE BOI NOBRE</h1>
+            <p>Cortes Nobres – Sabor e Tradição em Cada Pedaço</p>
+        </div>
+    </div>
+</header>
+
+<div class="tabs-nav">
+    <button class="tab-btn active" data-tab="tab-bovina"><i class="fas fa-cow"></i> Carne Bovina</button>
+    <button class="tab-btn" data-tab="tab-suina"><i class="fas fa-piggy-bank"></i> Carne Suína</button>
+    <button class="tab-btn" data-tab="tab-frango"><i class="fas fa-drumstick-bite"></i> Frango</button>
+    <button class="tab-btn" data-tab="tab-moida"><i class="fas fa-blender"></i> Carne Moída</button>
+</div>
+
+<!-- Dicas do Açougueiro -->
+<div class="dicas-container">
+    <div class="dicas-titulo"><i class="fas fa-kitchen-set"></i> Dicas do Açougueiro</div>
+    <div class="dicas-grid">
+        <div class="dica-card" data-tipo="panela"><i class="fas fa-pot-food"></i><h3>Carne de Panela</h3><p>Maciez e sabor para cozidos</p></div>
+        <div class="dica-card" data-tipo="grelhar"><i class="fas fa-fire"></i><h3>Grelhar</h3><p>Perfeitas para chapa ou frigideira</p></div>
+        <div class="dica-card" data-tipo="ensopado"><i class="fas fa-utensils"></i><h3>Ensopado</h3><p>Carnes que soltam sabor no caldo</p></div>
+        <div class="dica-card" data-tipo="churrasco"><i class="fas fa-drumstick-bite"></i><h3>Churrasco</h3><p>Cortes nobres para a grelha</p></div>
+    </div>
+</div>
+
+<main>
+    <!-- SEÇÃO CARNE BOVINA -->
+    <section id="tab-bovina" class="tab-content active">
+        <div class="title-wrapper"><h2 class="section-title">🐂 Carne Bovina</h2></div>
+        <div class="products-grid" id="bovina-visible-grid">
+            <!-- 5 primeiros itens -->
+            <div class="product-card" data-name="Picanha" data-price="94.99"><div class="card-inner"><div class="product-name"><span>Corte Nobre</span> Picanha</div><div class="product-desc">Peça tradicional, suculenta.</div><div class="product-price">R$ 94,99 <small>/kg</small></div><div class="product-total">R$ 94,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Contra-filé" data-price="62.99"><div class="card-inner"><div class="product-name"><span>Corte Nobre</span> Contra-filé</div><div class="product-desc">Marmorizado, ótimo para churrasco.</div><div class="product-price">R$ 62,99 <small>/kg</small></div><div class="product-total">R$ 62,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Alcatra" data-price="58.99"><div class="card-inner"><div class="product-name"><span>Macia</span> Alcatra</div><div class="product-desc">Versátil para bifes ou assados.</div><div class="product-price">R$ 58,99 <small>/kg</small></div><div class="product-total">R$ 58,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Coxão mole" data-price="49.99"><div class="card-inner"><div class="product-name"><span>Suculento</span> Coxão mole</div><div class="product-desc">Ideal para bifes e refogados.</div><div class="product-price">R$ 49,99 <small>/kg</small></div><div class="product-total">R$ 49,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Ponta de picanha" data-price="47.99"><div class="card-inner"><div class="product-name"><span>Saborosa</span> Ponta de picanha</div><div class="product-desc">Extremidade saborosa.</div><div class="product-price">R$ 47,99 <small>/kg</small></div><div class="product-total">R$ 47,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+        </div>
+        <div class="products-grid-hidden" id="bovina-hidden-grid">
+            <div class="product-card" data-name="Cabeça da picanha" data-price="59.99"><div class="card-inner"><div class="product-name"><span>Nobre</span> Cabeça da picanha</div><div class="product-desc">Parte nobre da picanha.</div><div class="product-price">R$ 59,99 <small>/kg</small></div><div class="product-total">R$ 59,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Patinho" data-price="48.99"><div class="card-inner"><div class="product-name"><span>Magro</span> Patinho</div><div class="product-desc">Corte magro.</div><div class="product-price">R$ 48,99 <small>/kg</small></div><div class="product-total">R$ 48,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Músculo" data-price="38.99"><div class="card-inner"><div class="product-name"><span>Cozido</span> Músculo</div><div class="product-desc">Ideal para cozidos e ensopados.</div><div class="product-price">R$ 38,99 <small>/kg</small></div><div class="product-total">R$ 38,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Acém" data-price="38.99"><div class="card-inner"><div class="product-name"><span>Versátil</span> Acém</div><div class="product-desc">Ótimo para cozidos.</div><div class="product-price">R$ 38,99 <small>/kg</small></div><div class="product-total">R$ 38,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Paleta" data-price="43.99"><div class="card-inner"><div class="product-name"><span>Assado</span> Paleta</div><div class="product-desc">Perfeita para assar.</div><div class="product-price">R$ 43,99 <small>/kg</small></div><div class="product-total">R$ 43,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Paletão" data-price="46.99"><div class="card-inner"><div class="product-name"><span>Assado</span> Paletão</div><div class="product-desc">Corte suculento para assar.</div><div class="product-price">R$ 46,99 <small>/kg</small></div><div class="product-total">R$ 46,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Fraldinha" data-price="58.99"><div class="card-inner"><div class="product-name"><span>Suculenta</span> Fraldinha</div><div class="product-desc">Excelente para churrasco.</div><div class="product-price">R$ 58,99 <small>/kg</small></div><div class="product-total">R$ 58,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Costela gaúcha" data-price="25.99"><div class="card-inner"><div class="product-name"><span>Assado</span> Costela gaúcha</div><div class="product-desc">Tradicional costela.</div><div class="product-price">R$ 25,99 <small>/kg</small></div><div class="product-total">R$ 25,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Costela ripa" data-price="23.99"><div class="card-inner"><div class="product-name"><span>Assado</span> Costela ripa</div><div class="product-desc">Costela em ripas.</div><div class="product-price">R$ 23,99 <small>/kg</small></div><div class="product-total">R$ 23,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Costela especial" data-price="29.99"><div class="card-inner"><div class="product-name"><span>Especial</span> Costela especial</div><div class="product-desc">Costela de alta qualidade.</div><div class="product-price">R$ 29,99 <small>/kg</small></div><div class="product-total">R$ 29,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Cupim" data-price="63.99"><div class="card-inner"><div class="product-name"><span>Nobre</span> Cupim</div><div class="product-desc">Muito suculento.</div><div class="product-price">R$ 63,99 <small>/kg</small></div><div class="product-total">R$ 63,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Cupim na laranja" data-price="65.99"><div class="card-inner"><div class="product-name"><span>Temperado</span> Cupim na laranja</div><div class="product-desc">Cupim com laranja.</div><div class="product-price">R$ 65,99 <small>/kg</small></div><div class="product-total">R$ 65,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Lagarto" data-price="48.99"><div class="card-inner"><div class="product-name"><span>Macia</span> Lagarto</div><div class="product-desc">Ideal para rosbife.</div><div class="product-price">R$ 48,99 <small>/kg</small></div><div class="product-total">R$ 48,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Maçã de peito" data-price="36.99"><div class="card-inner"><div class="product-name"><span>Peito</span> Maçã de peito</div><div class="product-desc">Corte do peito.</div><div class="product-price">R$ 36,99 <small>/kg</small></div><div class="product-total">R$ 36,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Maçã de peito Angus" data-price="44.99"><div class="card-inner"><div class="product-name"><span>Angus</span> Maçã de peito Angus</div><div class="product-desc">Qualidade Angus.</div><div class="product-price">R$ 44,99 <small>/kg</small></div><div class="product-total">R$ 44,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Filé mignon" data-price="84.99"><div class="card-inner"><div class="product-name"><span>Nobre</span> Filé mignon</div><div class="product-desc">O mais macio.</div><div class="product-price">R$ 84,99 <small>/kg</small></div><div class="product-total">R$ 84,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Shoulder" data-price="52.99"><div class="card-inner"><div class="product-name"><span>Corte</span> Shoulder</div><div class="product-desc">Corte especial.</div><div class="product-price">R$ 52,99 <small>/kg</small></div><div class="product-total">R$ 52,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Miolo de acém" data-price="52.99"><div class="card-inner"><div class="product-name"><span>Miolo</span> Miolo de acém</div><div class="product-desc">Parte central do acém.</div><div class="product-price">R$ 52,99 <small>/kg</small></div><div class="product-total">R$ 52,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Baby beef" data-price="64.99"><div class="card-inner"><div class="product-name"><span>Especial</span> Baby beef</div><div class="product-desc">Carne de animal jovem.</div><div class="product-price">R$ 64,99 <small>/kg</small></div><div class="product-total">R$ 64,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Chicken house" data-price="59.99"><div class="card-inner"><div class="product-name"><span>Especial</span> Chicken house</div><div class="product-desc">Corte especial.</div><div class="product-price">R$ 59,99 <small>/kg</small></div><div class="product-total">R$ 59,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Espetinho bovino" data-price="49.99"><div class="card-inner"><div class="product-name"><span>Espetinho</span> Espetinho bovino</div><div class="product-desc">Pronto para churrasco.</div><div class="product-price">R$ 49,99 <small>/kg</small></div><div class="product-total">R$ 49,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Bananinha" data-price="54.99"><div class="card-inner"><div class="product-name"><span>Corte</span> Bananinha</div><div class="product-desc">Corte especial.</div><div class="product-price">R$ 54,99 <small>/kg</small></div><div class="product-total">R$ 54,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Fígado" data-price="24.99"><div class="card-inner"><div class="product-name"><span>Miúdo</span> Fígado</div><div class="product-desc">Fresco, ideal para fígado acebolado.</div><div class="product-price">R$ 24,99 <small>/kg</small></div><div class="product-total">R$ 24,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Kafta recheada c/ bacon" data-price="59.99"><div class="card-inner"><div class="product-name"><span>Recheada</span> Kafta recheada c/ bacon</div><div class="product-desc">Kafta com recheio de bacon.</div><div class="product-price">R$ 59,99 <small>/kg</small></div><div class="product-total">R$ 59,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Chorizo" data-price="64.99"><div class="card-inner"><div class="product-name"><span>Corte</span> Chorizo</div><div class="product-desc">Corte argentino.</div><div class="product-price">R$ 64,99 <small>/kg</small></div><div class="product-total">R$ 64,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Almôndega" data-price="36.99"><div class="card-inner"><div class="product-name"><span>Pronta</span> Almôndega</div><div class="product-desc">Almôndegas bovinas.</div><div class="product-price">R$ 36,99 <small>/kg</small></div><div class="product-total">R$ 36,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Hambúrguer" data-price="36.99"><div class="card-inner"><div class="product-name"><span>Hambúrguer</span> Hambúrguer artesanal</div><div class="product-desc">Puro carne bovina.</div><div class="product-price">R$ 36,99 <small>/kg</small></div><div class="product-total">R$ 36,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+        </div>
+        <button class="toggle-products-btn" data-section="bovina">Mostrar mais carnes</button>
+        <div class="ads-container"><div class="ad-card"><i class="fas fa-chalkboard-user"></i><h4>Espaço para Anunciante</h4><p>Destaque seu negócio!</p><a href="https://wa.me/5534991058994" class="ad-phone"><i class="fab fa-whatsapp"></i> (34) 99105-8994</a></div><div class="ad-card"><i class="fas fa-bullhorn"></i><h4>Seu Anúncio Aqui</h4><p>Divulgue sua marca.</p><a href="https://wa.me/5534991058994" class="ad-phone"><i class="fab fa-whatsapp"></i> (34) 99105-8994</a></div></div>
+    </section>
+
+    <!-- SEÇÃO CARNE SUÍNA (apenas 5 primeiros visíveis) -->
+    <section id="tab-suina" class="tab-content">
+        <div class="title-wrapper"><h2 class="section-title">🐷 Carne Suína</h2></div>
+        <div class="products-grid" id="suina-visible-grid">
+            <div class="product-card" data-name="Pernil" data-price="27.99"><div class="card-inner"><div class="product-name"><span>Assado</span> Pernil</div><div class="product-desc">Suculento, ideal para assar.</div><div class="product-price">R$ 27,99 <small>/kg</small></div><div class="product-total">R$ 27,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Lombo" data-price="31.99"><div class="card-inner"><div class="product-name"><span>Magro</span> Lombo</div><div class="product-desc">Macio e versátil.</div><div class="product-price">R$ 31,99 <small>/kg</small></div><div class="product-total">R$ 31,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Costelinha" data-price="29.99"><div class="card-inner"><div class="product-name"><span>Defumada</span> Costelinha</div><div class="product-desc">Ideal para churrasco.</div><div class="product-price">R$ 29,99 <small>/kg</small></div><div class="product-total">R$ 29,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Bisteca" data-price="24.99"><div class="card-inner"><div class="product-name"><span>Grelhada</span> Bisteca</div><div class="product-desc">Com osso, saborosa.</div><div class="product-price">R$ 24,99 <small>/kg</small></div><div class="product-total">R$ 24,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Copa lombo" data-price="34.99"><div class="card-inner"><div class="product-name"><span>Nobre</span> Copa lombo</div><div class="product-desc">Corte suculento.</div><div class="product-price">R$ 34,99 <small>/kg</small></div><div class="product-total">R$ 34,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+        </div>
+        <div class="products-grid-hidden" id="suina-hidden-grid">
+            <div class="product-card" data-name="Barriga" data-price="32.99"><div class="card-inner"><div class="product-name"><span>Saborosa</span> Barriga</div><div class="product-desc">Perfeita para torresmo.</div><div class="product-price">R$ 32,99 <small>/kg</small></div><div class="product-total">R$ 32,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Toucinho" data-price="19.99"><div class="card-inner"><div class="product-name"><span>Gordura</span> Toucinho</div><div class="product-desc">Para temperos e frituras.</div><div class="product-price">R$ 19,99 <small>/kg</small></div><div class="product-total">R$ 19,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Torresmo prime" data-price="38.99"><div class="card-inner"><div class="product-name"><span>Crocante</span> Torresmo prime</div><div class="product-desc">Torresmo de alta qualidade.</div><div class="product-price">R$ 38,99 <small>/kg</small></div><div class="product-total">R$ 38,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Pé suíno" data-price="21.99"><div class="card-inner"><div class="product-name"><span>Miúdo</span> Pé suíno</div><div class="product-desc">Para caldos e feijoada.</div><div class="product-price">R$ 21,99 <small>/kg</small></div><div class="product-total">R$ 21,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Orelha" data-price="21.99"><div class="card-inner"><div class="product-name"><span>Miúdo</span> Orelha</div><div class="product-desc">Para feijoada.</div><div class="product-price">R$ 21,99 <small>/kg</small></div><div class="product-total">R$ 21,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+        </div>
+        <button class="toggle-products-btn" data-section="suina">Mostrar mais carnes</button>
+        <div class="ads-container"><div class="ad-card"><i class="fas fa-chalkboard-user"></i><h4>Anuncie aqui</h4><a href="https://wa.me/5534991058994" class="ad-phone">(34) 99105-8994</a></div><div class="ad-card"><i class="fas fa-bullhorn"></i><h4>Divulgue seu negócio</h4><a href="https://wa.me/5534991058994" class="ad-phone">WhatsApp</a></div></div>
+    </section>
+
+    <!-- SEÇÃO FRANGO (apenas 5 primeiros visíveis) -->
+    <section id="tab-frango" class="tab-content">
+        <div class="title-wrapper"><h2 class="section-title">🐔 Frango</h2></div>
+        <div class="products-grid" id="frango-visible-grid">
+            <div class="product-card" data-name="Frango assado" data-price="49.99"><div class="card-inner"><div class="product-name"><span>Assado</span> Frango assado</div><div class="product-desc">Peça inteira pronta para assar.</div><div class="product-price">R$ 49,99 <small>/kg</small></div><div class="product-total">R$ 49,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Filé de peito" data-price="34.99"><div class="card-inner"><div class="product-name"><span>Filé</span> Filé de peito</div><div class="product-desc">Peito de frango sem osso.</div><div class="product-price">R$ 34,99 <small>/kg</small></div><div class="product-total">R$ 34,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Coxa" data-price="21.99"><div class="card-inner"><div class="product-name"><span>Frango</span> Coxa</div><div class="product-desc">Coxa de frango.</div><div class="product-price">R$ 21,99 <small>/kg</small></div><div class="product-total">R$ 21,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Sobrecoxa" data-price="24.99"><div class="card-inner"><div class="product-name"><span>Frango</span> Sobrecoxa</div><div class="product-desc">Suculenta.</div><div class="product-price">R$ 24,99 <small>/kg</small></div><div class="product-total">R$ 24,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Coxa e sobrecoxa" data-price="19.99"><div class="card-inner"><div class="product-name"><span>Conjunto</span> Coxa e sobrecoxa</div><div class="product-desc">Kit econômico.</div><div class="product-price">R$ 19,99 <small>/kg</small></div><div class="product-total">R$ 19,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+        </div>
+        <div class="products-grid-hidden" id="frango-hidden-grid">
+            <div class="product-card" data-name="Filé de Coxa e sobrecoxa na cerveja preta" data-price="22.99"><div class="card-inner"><div class="product-name"><span>Temperado</span> Filé na cerveja preta</div><div class="product-desc">Com cerveja preta.</div><div class="product-price">R$ 22,99 <small>/kg</small></div><div class="product-total">R$ 22,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Filé de Coxa e sobrecoxa na mostarda" data-price="22.99"><div class="card-inner"><div class="product-name"><span>Temperado</span> Filé na mostarda</div><div class="product-desc">Com mostarda.</div><div class="product-price">R$ 22,99 <small>/kg</small></div><div class="product-total">R$ 22,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Meio da asa" data-price="39.99"><div class="card-inner"><div class="product-name"><span>Asa</span> Meio da asa</div><div class="product-desc">Parte média da asa.</div><div class="product-price">R$ 39,99 <small>/kg</small></div><div class="product-total">R$ 39,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Tulipa na mostarda" data-price="42.99"><div class="card-inner"><div class="product-name"><span>Temperada</span> Tulipa na mostarda</div><div class="product-desc">Tulipa com mostarda.</div><div class="product-price">R$ 42,99 <small>/kg</small></div><div class="product-total">R$ 42,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Pé de frango" data-price="14.99"><div class="card-inner"><div class="product-name"><span>Miúdo</span> Pé de frango</div><div class="product-desc">Para caldos.</div><div class="product-price">R$ 14,99 <small>/kg</small></div><div class="product-total">R$ 14,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Moela" data-price="19.99"><div class="card-inner"><div class="product-name"><span>Miúdo</span> Moela</div><div class="product-desc">Limpa.</div><div class="product-price">R$ 19,99 <small>/kg</small></div><div class="product-total">R$ 19,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Fígado" data-price="14.99"><div class="card-inner"><div class="product-name"><span>Miúdo</span> Fígado</div><div class="product-desc">Fresco.</div><div class="product-price">R$ 14,99 <small>/kg</small></div><div class="product-total">R$ 14,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Espetinho de coração" data-price="49.99"><div class="card-inner"><div class="product-name"><span>Espetinho</span> Espetinho de coração</div><div class="product-desc">Coração de frango.</div><div class="product-price">R$ 49,99 <small>/kg</small></div><div class="product-total">R$ 49,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Frango a passarinho" data-price="23.99"><div class="card-inner"><div class="product-name"><span>Frito</span> Frango a passarinho</div><div class="product-desc">Cortado em pedaços.</div><div class="product-price">R$ 23,99 <small>/kg</small></div><div class="product-total">R$ 23,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Fran bacon" data-price="59.99"><div class="card-inner"><div class="product-name"><span>Especial</span> Fran bacon</div><div class="product-desc">Filé enrolado com bacon.</div><div class="product-price">R$ 59,99 <small>/kg</small></div><div class="product-total">R$ 59,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+        </div>
+        <button class="toggle-products-btn" data-section="frango">Mostrar mais carnes</button>
+        <div class="ads-container"><div class="ad-card"><i class="fas fa-chalkboard-user"></i><h4>Anuncie aqui</h4><a href="https://wa.me/5534991058994" class="ad-phone">(34) 99105-8994</a></div><div class="ad-card"><i class="fas fa-bullhorn"></i><h4>Seu espaço</h4><a href="https://wa.me/5534991058994" class="ad-phone">WhatsApp</a></div></div>
+    </section>
+
+    <!-- SEÇÃO CARNE MOÍDA -->
+    <section id="tab-moida" class="tab-content">
+        <div class="moida-placeholder"><i class="fas fa-blender"></i><p><strong>Moagem de carnes</strong></p><p>Escolha o corte bovino, peso e quantas vezes moer.</p><button id="abrirModalBtn" style="background:#c9a03d; border:none; padding:0.5rem 1rem; border-radius:40px; font-weight:bold; font-size:0.8rem;"><i class="fas fa-arrow-right"></i> Escolher carne para moer</button></div>
+        <div class="ads-container"><div class="ad-card"><i class="fas fa-chalkboard-user"></i><h4>Anuncie aqui</h4><a href="https://wa.me/5534991058994" class="ad-phone">(34) 99105-8994</a></div><div class="ad-card"><i class="fas fa-bullhorn"></i><h4>Seu anúncio</h4><a href="https://wa.me/5534991058994" class="ad-phone">WhatsApp</a></div></div>
+    </section>
+</main>
+
+<!-- MODAL MOAGEM -->
+<div id="modalMoida" class="modal-overlay">
+    <div class="modal-container">
+        <span class="close-modal">&times;</span>
+        <h3><i class="fas fa-blender"></i> Moer Carne</h3>
+        <div class="form-group">
+            <label>Selecione a carne bovina desejada:</label>
+            <select id="carneSelect"></select>
+        </div>
+        <div id="customMeatGroup" class="custom-meat-group">
+            <div class="form-group">
+                <label>Nome da carne (personalizado):</label>
+                <input type="text" id="customNomeCarne" placeholder="Ex.: Carne de sol, capricho, etc.">
+            </div>
+            <div class="form-group">
+                <label>Preço (R$/kg) para esta carne:</label>
+                <input type="number" id="customPrecoCarne" step="0.01" min="0.01" placeholder="Digite o preço">
+            </div>
+            <small class="info-text">Preencha ambos os campos para adicionar uma carne personalizada.</small>
+        </div>
+        <div class="form-group">
+            <label>Peso (kg):</label>
+            <input type="number" id="pesoMoida" step="0.1" min="0.1" value="1.0">
+        </div>
+        <div class="form-group">
+            <label>Moer quantas vezes?</label>
+            <select id="vezesMoida">
+                <option value="1">1 vez</option>
+                <option value="2">2 vezes</option>
+                <option value="3">3 vezes</option>
+            </select>
+        </div>
+        <button class="btn-modal-submit" id="addMoagemCarrinho"><i class="fas fa-cart-plus"></i> Adicionar ao carrinho</button>
+        <div class="info-text">Moagem na hora, com o corte de sua preferência.</div>
+    </div>
+</div>
+
+<!-- MODAL DICAS -->
+<div id="modalDicas" class="modal-dicas">
+    <div class="modal-dicas-container">
+        <div class="modal-dicas-header"><h3 id="dicaTitulo">Dica</h3><span class="close-dicas">&times;</span></div>
+        <div class="lista-carnes" id="listaCarnesModal"></div>
+        <div class="selecao-area">
+            <label>Carne escolhida (edite se desejar):</label>
+            <div class="linha-flex"><input type="text" id="carneEscolhidaInput" placeholder="Ex: Picanha" value=""><button id="limparSelecaoBtn" class="btn-lixeira"><i class="fas fa-trash-alt"></i></button></div>
+            <label>Peso (kg):</label>
+            <input type="number" id="pesoDica" step="0.1" min="0.1" value="1.0">
+            <button id="addDicaCarrinho" class="btn-enviar-dica"><i class="fas fa-cart-plus"></i> Adicionar ao carrinho</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL MEU PEDIDO -->
+<div id="modalPedido" class="modal-pedido">
+    <div class="modal-pedido-container">
+        <div class="modal-pedido-header"><h3><i class="fas fa-shopping-bag"></i> Meu Pedido</h3><span class="close-pedido">&times;</span></div>
+        <div id="listaItensPedido" class="lista-itens-pedido"></div>
+        <div id="totalPedido" class="total-pedido">Total: R$ 0,00</div>
+        
+        <div class="form-pedido-campos">
+            <div class="form-group-custom">
+                <label><i class="fas fa-user"></i> Seu nome *</label>
+                <input type="text" id="clienteNome" placeholder="Digite seu nome" required>
+            </div>
+            <div class="form-group-custom">
+                <label><i class="fas fa-truck"></i> Forma de entrega *</label>
+                <select id="entregaSelect">
+                    <option value="retirada">Retirada no balcão</option>
+                    <option value="delivery">Delivery</option>
+                </select>
+            </div>
+            <div id="enderecoGroup" class="conditional-field" style="display:none;">
+                <div class="form-group-custom">
+                    <label><i class="fas fa-map-marker-alt"></i> Endereço de entrega *</label>
+                    <input type="text" id="enderecoDelivery" placeholder="Rua, número, bairro, referência">
+                </div>
+            </div>
+            <div class="form-group-custom">
+                <label><i class="fas fa-money-bill-wave"></i> Forma de pagamento *</label>
+                <select id="pagamentoSelect">
+                    <option value="pix">Pix</option>
+                    <option value="cartao">Cartão de crédito</option>
+                    <option value="dinheiro">Dinheiro</option>
+                </select>
+            </div>
+            <div id="trocoGroup" class="conditional-field" style="display:none;">
+                <div class="form-group-custom">
+                    <label><i class="fas fa-exchange-alt"></i> Troco para quanto? *</label>
+                    <input type="text" id="trocoValor" placeholder="Ex: R$ 100,00">
+                </div>
+            </div>
+        </div>
+        
+        <button id="btnEscolherMais" class="btn-escolher-mais"><i class="fas fa-plus-circle"></i> Escolher mais carnes</button>
+        <button id="btnFinalizarPedido" class="btn-finalizar-pedido"><i class="fab fa-whatsapp"></i> Enviar Pedido</button>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-col"><h4><i class="fas fa-store"></i> Boi Nobre</h4><p>Avenida Palmeira Imperial 245, Aclimação</p><p>Uberlândia - MG</p></div>
+        <div class="footer-col"><h4><i class="far fa-clock"></i> Horário</h4><p>Segunda a Sábado: 8h às 19h</p><p>Domingo: 8h às 13h</p></div>
+        <div class="footer-col"><h4><i class="fas fa-phone-alt"></i> Contato</h4><p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/5534998915390">(34) 99891-5390</a></p></div>
+    </div>
+    <div class="copyright">© 2026 Casa de Carne Boi Nobre</div>
+</footer>
+
+<button id="btnMeuPedidoFooter" class="btn-meu-pedido"><i class="fas fa-shopping-cart"></i> Meu Pedido <span id="carrinhoCount">(0)</span></button>
+<a href="https://wa.me/5534998915390" class="float-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+<script>
+    // ========== CARRINHO GLOBAL ==========
+    let carrinho = [];
+
+    function salvarCarrinho() {
+        localStorage.setItem('carrinhoBoiNobre', JSON.stringify(carrinho));
+        atualizarContador();
+    }
+    function carregarCarrinho() {
+        const saved = localStorage.getItem('carrinhoBoiNobre');
+        if(saved) carrinho = JSON.parse(saved);
+        atualizarContador();
+        renderizarCarrinhoModal();
+    }
+    function atualizarContador() {
+        const countSpan = document.getElementById('carrinhoCount');
+        if(countSpan) countSpan.innerText = `(${carrinho.length})`;
+    }
+    function adicionarAoCarrinho(nome, precoKg, peso, detalhe = '') {
+        const id = Date.now() + Math.random() * 1000;
+        const total = precoKg * peso;
+        carrinho.push({ id, nome, precoKg, peso, total, detalhe });
+        salvarCarrinho();
+        alert(`${nome} adicionado ao carrinho!`);
+        renderizarCarrinhoModal();
+    }
+    function removerDoCarrinho(id) {
+        carrinho = carrinho.filter(item => item.id != id);
+        salvarCarrinho();
+        renderizarCarrinhoModal();
+    }
+    function editarItemCarrinho(id) {
+        const item = carrinho.find(i => i.id == id);
+        if(item) {
+            const novoPeso = parseFloat(prompt(`Editar peso (kg) para ${item.nome}:`, item.peso));
+            if(!isNaN(novoPeso) && novoPeso > 0) {
+                item.peso = novoPeso;
+                item.total = item.precoKg * novoPeso;
+                salvarCarrinho();
+                renderizarCarrinhoModal();
+            }
+        }
+    }
+    function renderizarCarrinhoModal() {
+        const container = document.getElementById('listaItensPedido');
+        const totalSpan = document.getElementById('totalPedido');
+        if(!container) return;
+        if(carrinho.length === 0) {
+            container.innerHTML = '<p style="text-align:center; padding:0.5rem;">Seu carrinho está vazio.</p>';
+            totalSpan.innerText = 'Total: R$ 0,00';
+            return;
+        }
+        let html = '';
+        let totalGeral = 0;
+        carrinho.forEach(item => {
+            totalGeral += item.total;
+            html += `
+                <div class="item-pedido">
+                    <div class="item-info">
+                        <strong>${item.nome}</strong>
+                        <small>${item.detalhe ? item.detalhe+' - ' : ''}${item.peso.toFixed(2)} kg x R$ ${item.precoKg.toFixed(2)}/kg</small>
+                        <div>R$ ${item.total.toFixed(2)}</div>
+                    </div>
+                    <div class="item-acoes">
+                        <button onclick="editarItemCarrinho(${item.id})" title="Editar peso"><i class="fas fa-pencil-alt"></i></button>
+                        <button onclick="removerDoCarrinho(${item.id})" title="Remover"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        totalSpan.innerText = `Total: R$ ${totalGeral.toFixed(2)}`;
+    }
+    
+    // ========== ENVIO COM DADOS DO CLIENTE (com validações e modal aberto) ==========
+    function enviarPedidoCompleto() {
+        if(carrinho.length === 0) {
+            alert("Seu carrinho está vazio. Adicione itens antes de finalizar.");
+            return false; // indica que não enviou
+        }
+        const nomeCliente = document.getElementById('clienteNome').value.trim();
+        if(!nomeCliente) {
+            alert("Por favor, informe seu nome.");
+            return false;
+        }
+        const entregaSelect = document.getElementById('entregaSelect');
+        const entrega = entregaSelect.value;
+        let endereco = '';
+        if(entrega === 'delivery') {
+            endereco = document.getElementById('enderecoDelivery').value.trim();
+            if(!endereco) {
+                alert("Por favor, informe o endereço para delivery.");
+                return false;
+            }
+        }
+        const pagamentoSelect = document.getElementById('pagamentoSelect');
+        const pagamento = pagamentoSelect.value;
+        let troco = '';
+        if(pagamento === 'dinheiro') {
+            troco = document.getElementById('trocoValor').value.trim();
+            if(!troco) {
+                alert("Por favor, informe o valor para troco.");
+                return false;
+            }
+        }
+        
+        let mensagem = `🍖 *PEDIDO - BOI NOBRE* 🍖\n\n`;
+        mensagem += `*Cliente:* ${nomeCliente}\n`;
+        mensagem += `*Entrega:* ${entrega === 'retirada' ? 'Retirada no balcão' : 'Delivery'}\n`;
+        if(entrega === 'delivery') mensagem += `*Endereço:* ${endereco}\n`;
+        mensagem += `*Pagamento:* ${pagamento === 'pix' ? 'Pix' : (pagamento === 'cartao' ? 'Cartão de crédito' : 'Dinheiro')}\n`;
+        if(pagamento === 'dinheiro') mensagem += `*Troco para:* ${troco}\n`;
+        mensagem += `\n*ITENS DO PEDIDO:*\n`;
+        
+        let totalGeral = 0;
+        carrinho.forEach((item, idx) => {
+            mensagem += `${idx+1} - ${item.nome}: ${item.peso.toFixed(2)} kg x R$ ${item.precoKg.toFixed(2)}/kg = R$ ${item.total.toFixed(2)}`;
+            if(item.detalhe) mensagem += ` (${item.detalhe})`;
+            mensagem += "\n";
+            totalGeral += item.total;
+        });
+        mensagem += `\n*Total do pedido:* R$ ${totalGeral.toFixed(2)}\n\n`;
+        mensagem += `Aguardando confirmação. Obrigado!`;
+        
+        const telefone = "5534998915390";
+        window.open(`https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`, '_blank');
+        return true;
+    }
+    
+    // ========== CONTROLE DE CAMPOS CONDICIONAIS ==========
+    function configurarCamposCondicionais() {
+        const entregaSelect = document.getElementById('entregaSelect');
+        const enderecoGroup = document.getElementById('enderecoGroup');
+        const pagamentoSelect = document.getElementById('pagamentoSelect');
+        const trocoGroup = document.getElementById('trocoGroup');
+        
+        function toggleEndereco() {
+            enderecoGroup.style.display = entregaSelect.value === 'delivery' ? 'block' : 'none';
+        }
+        function toggleTroco() {
+            trocoGroup.style.display = pagamentoSelect.value === 'dinheiro' ? 'block' : 'none';
+        }
+        entregaSelect.addEventListener('change', toggleEndereco);
+        pagamentoSelect.addEventListener('change', toggleTroco);
+        toggleEndereco();
+        toggleTroco();
+    }
+    
+    // ========== FUNÇÕES AUXILIARES (MOAGEM, DICAS, TOTAIS, TOGGLES) ==========
+    function atualizarTotalCard(card) {
+        const preco = parseFloat(card.getAttribute('data-price'));
+        const kgInput = card.querySelector('.kg-input');
+        const totalSpan = card.querySelector('.product-total');
+        if(kgInput && totalSpan && !isNaN(preco)) {
+            let kg = parseFloat(kgInput.value);
+            if(isNaN(kg) || kg <= 0) kg = 0;
+            const total = preco * kg;
+            totalSpan.innerText = `R$ ${total.toFixed(2)}`;
+        }
+    }
+    function configurarEventosTotais() {
+        document.querySelectorAll('.product-card').forEach(card => {
+            const input = card.querySelector('.kg-input');
+            if(input) {
+                input.removeEventListener('input', card._totalHandler);
+                const handler = () => atualizarTotalCard(card);
+                input.addEventListener('input', handler);
+                card._totalHandler = handler;
+                atualizarTotalCard(card);
+            }
+        });
+    }
+    function configurarToggles() {
+        document.querySelectorAll('.toggle-products-btn').forEach(btn => {
+            btn.removeEventListener('click', btn._toggleHandler);
+            const handler = (e) => {
+                const section = btn.dataset.section;
+                const hiddenGrid = document.getElementById(`${section}-hidden-grid`);
+                if(hiddenGrid) {
+                    const estavaExpandido = hiddenGrid.classList.contains('show');
+                    hiddenGrid.classList.toggle('show');
+                    const expandido = hiddenGrid.classList.contains('show');
+                    btn.textContent = expandido ? 'Mostrar menos carnes' : 'Mostrar mais carnes';
+                    if(estavaExpandido && !expandido) {
+                        const sectionEl = btn.closest('section');
+                        const titulo = sectionEl ? sectionEl.querySelector('.section-title') : null;
+                        if(titulo) {
+                            titulo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                }
+            };
+            btn.addEventListener('click', handler);
+            btn._toggleHandler = handler;
+        });
+    }
+    function obterTodasCarnesBovinas() {
+        const bovina = document.getElementById('tab-bovina');
+        const cards = bovina.querySelectorAll('.product-card');
+        const carnes = [];
+        cards.forEach(card => {
+            let nome = card.getAttribute('data-name') || '';
+            let preco = parseFloat(card.getAttribute('data-price'));
+            if(nome && !isNaN(preco)) carnes.push({ nome, preco });
+        });
+        const unique = []; const nomesSet = new Set();
+        carnes.forEach(c => { if(!nomesSet.has(c.nome)) { nomesSet.add(c.nome); unique.push(c); } });
+        return unique;
+    }
+    function popularSelectCarnes() {
+        const select = document.getElementById('carneSelect');
+        if(!select) return;
+        const carnes = obterTodasCarnesBovinas();
+        select.innerHTML = '';
+        carnes.forEach(c => { const opt = document.createElement('option'); opt.value = c.preco; opt.textContent = `${c.nome} - R$ ${c.preco.toFixed(2)}/kg`; opt.setAttribute('data-nome', c.nome); select.appendChild(opt); });
+        const outroOpt = document.createElement('option'); outroOpt.value = "outro"; outroOpt.textContent = "✏️ Outro (digitar nome)"; select.appendChild(outroOpt);
+    }
+    const selectCarne = document.getElementById('carneSelect');
+    const customGroup = document.getElementById('customMeatGroup');
+    if(selectCarne) selectCarne.addEventListener('change', function() { if(this.value === "outro") customGroup.classList.add('show'); else customGroup.classList.remove('show'); });
+    document.getElementById('addMoagemCarrinho')?.addEventListener('click', () => {
+        const select = document.getElementById('carneSelect');
+        const isOutro = select.value === "outro";
+        let nome = '', precoKg = 0;
+        const peso = parseFloat(document.getElementById('pesoMoida').value);
+        const vezes = document.getElementById('vezesMoida').value;
+        if(isNaN(peso) || peso <= 0) { alert("Peso inválido."); return; }
+        const vezesTxt = vezes === '1' ? '1 vez' : (vezes === '2' ? '2 vezes' : '3 vezes');
+        if(isOutro) {
+            const customNome = document.getElementById('customNomeCarne').value.trim();
+            const customPreco = parseFloat(document.getElementById('customPrecoCarne').value);
+            if(customNome === '') { alert("Digite o nome da carne personalizada."); return; }
+            if(isNaN(customPreco) || customPreco <= 0) { alert("Informe um preço válido."); return; }
+            nome = customNome; precoKg = customPreco;
+        } else {
+            nome = select.options[select.selectedIndex]?.getAttribute('data-nome') || '';
+            precoKg = parseFloat(select.value);
+            if(!nome || isNaN(precoKg)) { alert("Selecione uma carne bovina da lista."); return; }
+        }
+        adicionarAoCarrinho(nome, precoKg, peso, `Moído ${vezesTxt}`);
+        fecharModalMoagem();
+        document.getElementById('customNomeCarne').value = '';
+        document.getElementById('customPrecoCarne').value = '';
+        if(customGroup) customGroup.classList.remove('show');
+    });
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const card = btn.closest('.product-card');
+            if(card) {
+                const nome = card.dataset.name;
+                const preco = parseFloat(card.dataset.price);
+                const kgInput = card.querySelector('.kg-input');
+                let peso = kgInput ? parseFloat(kgInput.value) : 1.0;
+                if(isNaN(peso) || peso<=0) peso = 1.0;
+                adicionarAoCarrinho(nome, preco, peso, '');
+            }
+        });
+    });
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    function openTab(tabId) {
+        tabContents.forEach(c => c.classList.remove('active'));
+        document.getElementById(tabId)?.classList.add('active');
+        tabBtns.forEach(btn => { btn.classList.remove('active'); if(btn.dataset.tab === tabId) btn.classList.add('active'); });
+        if(tabId === 'tab-moida') abrirModalMoagem();
+    }
+    tabBtns.forEach(btn => btn.addEventListener('click', () => { openTab(btn.dataset.tab); }));
+    const modalMoida = document.getElementById('modalMoida');
+    function abrirModalMoagem() { popularSelectCarnes(); modalMoida.classList.add('active'); }
+    function fecharModalMoagem() { modalMoida.classList.remove('active'); }
+    document.querySelector('#modalMoida .close-modal')?.addEventListener('click', fecharModalMoagem);
+    modalMoida.addEventListener('click', (e) => { if(e.target === modalMoida) fecharModalMoagem(); });
+    document.getElementById('abrirModalBtn')?.addEventListener('click', abrirModalMoagem);
+    
+    const modalDicas = document.getElementById('modalDicas');
+    const dicaTituloSpan = document.getElementById('dicaTitulo');
+    const listaCarnesDiv = document.getElementById('listaCarnesModal');
+    const carneEscolhidaInput = document.getElementById('carneEscolhidaInput');
+    let dicaAtual = '';
+    function popularListaCarnes() {
+        const carnes = obterTodasCarnesBovinas();
+        listaCarnesDiv.innerHTML = '';
+        carnes.forEach(c => {
+            const div = document.createElement('div');
+            div.className = 'carne-item';
+            div.innerHTML = `<div class="carne-info"><strong>${c.nome}</strong><span>R$ ${c.preco.toFixed(2)}/kg</span></div><button class="btn-selecionar-carne" data-nome="${c.nome}" data-preco="${c.preco}">Selecionar</button>`;
+            listaCarnesDiv.appendChild(div);
+        });
+        document.querySelectorAll('.btn-selecionar-carne').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const nome = btn.dataset.nome;
+                const preco = btn.dataset.preco;
+                carneEscolhidaInput.value = `${nome} (R$ ${preco}/kg)`;
+                carneEscolhidaInput.dataset.preco = preco;
+                carneEscolhidaInput.dataset.nome = nome;
+            });
+        });
+    }
+    function abrirModalDicas(tipo) {
+        dicaAtual = tipo;
+        const titulos = { panela:'🍲 Carne de Panela - Dicas', grelhar:'🔥 Grelhar - Cortes ideais', ensopado:'🥘 Ensopado - Carnes que desmancham', churrasco:'🥩 Churrasco - Cortes nobres' };
+        dicaTituloSpan.innerText = titulos[tipo] || 'Dica';
+        popularListaCarnes();
+        carneEscolhidaInput.value = '';
+        delete carneEscolhidaInput.dataset.preco;
+        delete carneEscolhidaInput.dataset.nome;
+        document.getElementById('pesoDica').value = '1.0';
+        modalDicas.classList.add('active');
+    }
+    function fecharModalDicas() { modalDicas.classList.remove('active'); }
+    document.querySelector('.close-dicas')?.addEventListener('click', fecharModalDicas);
+    modalDicas.addEventListener('click', (e) => { if(e.target === modalDicas) fecharModalDicas(); });
+    document.getElementById('limparSelecaoBtn')?.addEventListener('click', () => { carneEscolhidaInput.value = ''; delete carneEscolhidaInput.dataset.preco; delete carneEscolhidaInput.dataset.nome; });
+    document.querySelectorAll('.dica-card').forEach(card => { card.addEventListener('click', () => { abrirModalDicas(card.dataset.tipo); }); });
+    document.getElementById('addDicaCarrinho')?.addEventListener('click', () => {
+        let carneTexto = document.getElementById('carneEscolhidaInput').value.trim();
+        if(!carneTexto) { alert("Selecione ou digite uma carne."); return; }
+        const peso = parseFloat(document.getElementById('pesoDica').value);
+        if(isNaN(peso) || peso <= 0) { alert("Peso inválido."); return; }
+        let precoKg = 0;
+        let nomeLimpo = carneTexto;
+        if(document.getElementById('carneEscolhidaInput').dataset.preco) precoKg = parseFloat(document.getElementById('carneEscolhidaInput').dataset.preco);
+        else { alert("Por favor, selecione uma carne da lista para obter o preço."); return; }
+        let tipoPreparo = '';
+        if(dicaAtual === 'panela') tipoPreparo = 'carne de panela';
+        else if(dicaAtual === 'grelhar') tipoPreparo = 'grelhar';
+        else if(dicaAtual === 'ensopado') tipoPreparo = 'ensopado';
+        else if(dicaAtual === 'churrasco') tipoPreparo = 'churrasco';
+        adicionarAoCarrinho(nomeLimpo, precoKg, peso, `Sugestão: ${tipoPreparo}`);
+        fecharModalDicas();
+    });
+    
+    const modalPedido = document.getElementById('modalPedido');
+    function abrirModalPedido() { renderizarCarrinhoModal(); modalPedido.classList.add('active'); }
+    function fecharModalPedido() { modalPedido.classList.remove('active'); }
+    document.querySelector('.close-pedido').addEventListener('click', fecharModalPedido);
+    modalPedido.addEventListener('click', (e) => { if(e.target === modalPedido) fecharModalPedido(); });
+    document.getElementById('btnMeuPedidoFooter').addEventListener('click', abrirModalPedido);
+    document.getElementById('btnEscolherMais').addEventListener('click', fecharModalPedido);
+    document.getElementById('btnFinalizarPedido').addEventListener('click', () => {
+        const enviado = enviarPedidoCompleto();
+        if(enviado) fecharModalPedido();
+        // Se não enviou (validação falhou), o modal permanece aberto
+    });
+    
+    window.editarItemCarrinho = editarItemCarrinho;
+    window.removerDoCarrinho = removerDoCarrinho;
+    
+    carregarCarrinho();
+    openTab('tab-bovina');
+    configurarEventosTotais();
+    configurarToggles();
+    configurarCamposCondicionais();
+    popularSelectCarnes();
+</script>
+</body>
+</html>
