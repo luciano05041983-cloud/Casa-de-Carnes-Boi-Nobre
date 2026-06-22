@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
     <style>
+        /* ===== ESTILOS GERAIS (mantidos) ===== */
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family:'Montserrat',sans-serif;
@@ -15,7 +16,7 @@
             line-height:1.3;
             padding-bottom:100px;
         }
-        /* ===== SPLASH SCREEN PREMIUM ===== */
+        /* ===== SPLASH SCREEN ===== */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -104,7 +105,7 @@
             100% { transform: translateX(250%); }
         }
 
-        /* ===== RESTO DO ESTILO ===== */
+        /* ===== HEADER, TABS, PRODUTOS ===== */
         .header {
             background:linear-gradient(135deg,#2b1e12 0%,#3d2a1a 100%);
             color:#f3d382;
@@ -179,7 +180,6 @@
             scroll-margin-top: 80px;
         }
         .title-wrapper { text-align:center; margin-bottom:0.8rem; }
-        /* Banner promocional abaixo do título */
         .banner-promo {
             max-width: 900px;
             margin: 0 auto 1.2rem auto;
@@ -193,7 +193,6 @@
             height: auto;
             display: block;
         }
-        /* Banner dentro do modal */
         .banner-modal {
             max-width: 100%;
             margin: 0.8rem 0 1rem 0;
@@ -207,13 +206,35 @@
             height: auto;
             display: block;
         }
-        .products-grid {
-            display:grid;
-            grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
-            gap:0.8rem;
-            max-width:1200px;
-            margin:0 auto;
+
+        /* ===== GRID EM DUPLAS (2 colunas) – SEMPRE 2 COLUNAS ===== */
+        .products-grid,
+        .products-grid-hidden {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
+        .products-grid-hidden {
+            display: none;
+        }
+        .products-grid-hidden.show {
+            display: grid;
+        }
+
+        /* Opcional: em telas muito pequenas, reduzimos o gap, mas mantemos 2 colunas */
+        @media (max-width: 480px) {
+            .products-grid,
+            .products-grid-hidden {
+                gap: 0.5rem;
+            }
+            .card-inner { padding: 0.25rem; }
+            .product-name { font-size: 0.8rem; }
+            .product-price { font-size: 0.8rem; }
+            .quantity-control input { width: 50px; }
+        }
+
         .product-card {
             background:#fff;
             border-radius:18px;
@@ -301,10 +322,8 @@
             cursor:pointer;
             font-size:0.85rem;
         }
-        .products-grid-hidden { display:none; margin-top:0.8rem; }
-        .products-grid-hidden.show { display:grid; }
-        
-        /* ===== ANÚNCIO ÚNICO (formato 16:5) ===== */
+
+        /* ===== ANÚNCIO ÚNICO ===== */
         .ad-single {
             max-width: 900px;
             margin: 1.5rem auto 0;
@@ -392,11 +411,8 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        /* Ajustes para telas menores mantendo a proporção 16:5 */
         @media (max-width:680px) {
-            .ad-single {
-                padding: 0.4rem 0.8rem;
-            }
+            .ad-single { padding: 0.4rem 0.8rem; }
             .ad-single i { font-size: 1.4rem; }
             .ad-single h4 { font-size: 0.85rem; }
             .ad-single p { font-size: 0.6rem; max-width: 95%; }
@@ -404,9 +420,7 @@
             .ad-single .badge { font-size: 0.5rem; }
         }
         @media (max-width:480px) {
-            .ad-single {
-                padding: 0.3rem 0.6rem;
-            }
+            .ad-single { padding: 0.3rem 0.6rem; }
             .ad-single i { font-size: 1.2rem; }
             .ad-single h4 { font-size: 0.75rem; }
             .ad-single p { font-size: 0.55rem; }
@@ -414,280 +428,7 @@
             .ad-single .badge { font-size: 0.45rem; }
         }
 
-        /* Anúncios antigos (grade) - mantido para compatibilidade */
-        .ads-container {
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:1.2rem;
-            margin-top:1.5rem;
-            max-width:900px;
-            margin-left:auto;
-            margin-right:auto;
-        }
-        .ad-card {
-            background:linear-gradient(145deg,#fff7e8,#fff0db);
-            border-radius:20px;
-            padding:1rem 0.8rem;
-            text-align:center;
-            border:2px dashed #c9a03d;
-        }
-        .ad-card i { font-size:1.6rem; color:#b85c1a; margin-bottom:0.3rem; }
-        .ad-card h4 { font-weight:800; color:#3d2a1a; margin-bottom:0.2rem; font-size:0.9rem; }
-        .ad-card p { font-size:0.7rem; color:#5c3e2a; }
-        .ad-phone {
-            display:inline-flex;
-            align-items:center;
-            gap:5px;
-            background-color:#25d366;
-            color:white;
-            text-decoration:none;
-            padding:0.3rem 0.8rem;
-            border-radius:40px;
-            font-weight:600;
-            font-size:0.7rem;
-            margin-top:0.4rem;
-        }
-
-        footer {
-            background-color:#1e1510;
-            color:#ddc8a8;
-            padding:1rem 1rem 1.5rem;
-            margin-top:2rem;
-            position:relative;
-        }
-        .footer-container {
-            display:flex;
-            flex-wrap:wrap;
-            gap:1rem;
-            max-width:1000px;
-            margin:0 auto;
-        }
-        .footer-col { flex:1; min-width:150px; }
-        .footer-col h4 { color:#eace8c; margin-bottom:0.4rem; font-size:0.85rem; }
-        .footer-col p, .footer-col a { color:#ccb88a; text-decoration:none; font-size:0.65rem; display:block; }
-        .copyright { text-align:center; border-top:1px solid #3f2d1f; padding-top:1rem; margin-top:1rem; font-size:0.6rem; }
-
-        /* ===== BOTÃO COMPARTILHAR + WHATSAPP FLUTUANTES ===== */
-        .float-buttons {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            z-index: 1000;
-        }
-        .float-whatsapp {
-            background-color: #25d366;
-            color: white;
-            border-radius: 50%;
-            width: 55px;
-            height: 55px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            text-decoration: none;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-            transition: transform 0.2s;
-        }
-        .float-whatsapp:hover {
-            transform: scale(1.05);
-        }
-        .float-share {
-            background: linear-gradient(135deg, #c9a03d, #e6b422);
-            color: #1e1510;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-            transition: transform 0.2s;
-            border: none;
-        }
-        .float-share:hover {
-            transform: scale(1.05);
-        }
-        .float-share i {
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-        }
-
-        /* ===== MODAL DE COMPARTILHAMENTO (POP-UP PERSUASIVO) ===== */
-        .modal-compartilhar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.75);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2002;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0.3s, opacity 0.3s;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-        }
-        .modal-compartilhar.active {
-            visibility: visible;
-            opacity: 1;
-        }
-        .modal-compartilhar-container {
-            background: linear-gradient(145deg, #fffaf0, #f7efe0);
-            border-radius: 32px;
-            max-width: 460px;
-            width: 92%;
-            padding: 2rem 1.5rem 1.8rem;
-            text-align: center;
-            border: 2px solid #c9a03d;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            position: relative;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-        .modal-compartilhar.active .modal-compartilhar-container {
-            transform: scale(1);
-        }
-        .modal-compartilhar .close-share {
-            position: absolute;
-            top: 12px;
-            right: 18px;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: #8b5a2b;
-            transition: 0.2s;
-            background: none;
-            border: none;
-        }
-        .modal-compartilhar .close-share:hover {
-            transform: rotate(90deg);
-            color: #b85c1a;
-        }
-        .modal-compartilhar .share-icon {
-            font-size: 3.5rem;
-            color: #c9a03d;
-            margin-bottom: 0.3rem;
-            background: rgba(201,160,61,0.15);
-            width: 80px;
-            height: 80px;
-            line-height: 80px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-        .modal-compartilhar h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            color: #3d2a1a;
-            margin: 0.5rem 0 0.3rem;
-        }
-        .modal-compartilhar .sub-text {
-            font-size: 0.95rem;
-            color: #5c3e2a;
-            margin-bottom: 0.5rem;
-            line-height: 1.4;
-        }
-        .modal-compartilhar .persuasive {
-            background: #fef1cf;
-            border-radius: 16px;
-            padding: 0.8rem 1rem;
-            margin: 1rem 0;
-            border-left: 4px solid #c9a03d;
-            text-align: left;
-            font-size: 0.85rem;
-            color: #2c1a0c;
-        }
-        .modal-compartilhar .persuasive i {
-            color: #b85c1a;
-            margin-right: 6px;
-        }
-        .modal-compartilhar .btn-copiar {
-            background: linear-gradient(135deg, #c9a03d, #e6b422);
-            border: none;
-            color: #1e1510;
-            font-weight: 800;
-            padding: 0.8rem 2rem;
-            border-radius: 60px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 12px rgba(201,160,61,0.4);
-            width: 100%;
-            margin-top: 0.5rem;
-        }
-        .modal-compartilhar .btn-copiar:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 20px rgba(201,160,61,0.5);
-        }
-        .modal-compartilhar .btn-copiar i {
-            margin-right: 8px;
-        }
-        .modal-compartilhar .btn-whatsapp-share {
-            background: #25d366;
-            color: white;
-            border: none;
-            font-weight: 700;
-            padding: 0.7rem 1.5rem;
-            border-radius: 60px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.2s;
-            width: 100%;
-            margin-top: 0.6rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .modal-compartilhar .btn-whatsapp-share:hover {
-            background: #128C7E;
-        }
-        .modal-compartilhar .feedback {
-            font-size: 0.8rem;
-            color: #25d366;
-            margin-top: 0.5rem;
-            height: 1.2rem;
-            transition: 0.2s;
-        }
-        @media (max-width:480px) {
-            .modal-compartilhar-container { padding: 1.5rem 1rem; }
-            .modal-compartilhar h2 { font-size: 1.3rem; }
-            .modal-compartilhar .share-icon { font-size: 2.8rem; width: 70px; height: 70px; line-height: 70px; }
-        }
-
-        .btn-meu-pedido {
-            position:fixed;
-            bottom:20px;
-            left:20px;
-            background: linear-gradient(135deg, #e6b422 0%, #c99c2e 100%);
-            color:#2c1a0c;
-            border:none;
-            padding:0.7rem 1.4rem;
-            border-radius:50px;
-            font-weight:800;
-            font-size:1rem;
-            box-shadow:0 6px 16px rgba(0,0,0,0.25);
-            cursor:pointer;
-            z-index:1000;
-            display:flex;
-            align-items:center;
-            gap:10px;
-            transition:0.2s;
-            letter-spacing:0.5px;
-            border:1px solid rgba(255,215,0,0.5);
-        }
-        .btn-meu-pedido i { font-size:1.2rem; }
-        .btn-meu-pedido:hover {
-            background: linear-gradient(135deg, #f5c542 0%, #daae3a 100%);
-            transform:scale(1.03);
-            box-shadow:0 8px 20px rgba(0,0,0,0.3);
-        }
+        /* ===== DICAS, FOOTER, BOTÕES FLUTUANTES ===== */
         .dicas-container {
             max-width:900px;
             margin:1.2rem auto;
@@ -851,23 +592,245 @@
             transition:0.2s;
             margin-top:0.3rem;
         }
-        @media (max-width:680px) {
-            .products-grid { grid-template-columns:1fr; }
-            .dicas-grid { gap:0.5rem; }
-            .btn-meu-pedido { bottom:15px; left:15px; padding:0.5rem 1rem; font-size:0.9rem; }
-            .float-whatsapp { width:48px; height:48px; font-size:1.5rem; }
-            .float-share { width:44px; height:44px; font-size:1.3rem; }
-            .modal-pedido-container { max-width:95%; padding:0.8rem; }
-            .logo-img { max-width: 100px; }
+        footer {
+            background-color:#1e1510;
+            color:#ddc8a8;
+            padding:1rem 1rem 1.5rem;
+            margin-top:2rem;
+            position:relative;
         }
-        @media (max-width:480px) {
-            .dica-card { padding:0.4rem 0.3rem; }
-            .dica-card h3 { font-size:0.8rem; }
-            .dica-card i { font-size:1.1rem; }
-            .logo-img { max-width: 85px; }
-            .splash-brand { font-size: 1.4rem; }
-            .splash-image { max-width: 95%; }
+        .footer-container {
+            display:flex;
+            flex-wrap:wrap;
+            gap:1rem;
+            max-width:1000px;
+            margin:0 auto;
         }
+        .footer-col { flex:1; min-width:150px; }
+        .footer-col h4 { color:#eace8c; margin-bottom:0.4rem; font-size:0.85rem; }
+        .footer-col p, .footer-col a { color:#ccb88a; text-decoration:none; font-size:0.65rem; display:block; }
+        .copyright { text-align:center; border-top:1px solid #3f2d1f; padding-top:1rem; margin-top:1rem; font-size:0.6rem; }
+
+        /* ===== BOTÕES FLUTUANTES ===== */
+        .float-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+        }
+        .float-whatsapp {
+            background-color: #25d366;
+            color: white;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            text-decoration: none;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+        }
+        .float-whatsapp:hover {
+            transform: scale(1.05);
+        }
+        .float-share {
+            background: linear-gradient(135deg, #c9a03d, #e6b422);
+            color: #1e1510;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+            border: none;
+        }
+        .float-share:hover {
+            transform: scale(1.05);
+        }
+        .float-share i {
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        /* ===== MODAL DE COMPARTILHAR ===== */
+        .modal-compartilhar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2002;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .modal-compartilhar.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-compartilhar-container {
+            background: linear-gradient(145deg, #fffaf0, #f7efe0);
+            border-radius: 32px;
+            max-width: 460px;
+            width: 92%;
+            padding: 2rem 1.5rem 1.8rem;
+            text-align: center;
+            border: 2px solid #c9a03d;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-compartilhar.active .modal-compartilhar-container {
+            transform: scale(1);
+        }
+        .modal-compartilhar .close-share {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #8b5a2b;
+            transition: 0.2s;
+            background: none;
+            border: none;
+        }
+        .modal-compartilhar .close-share:hover {
+            transform: rotate(90deg);
+            color: #b85c1a;
+        }
+        .modal-compartilhar .share-icon {
+            font-size: 3.5rem;
+            color: #c9a03d;
+            margin-bottom: 0.3rem;
+            background: rgba(201,160,61,0.15);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .modal-compartilhar h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #3d2a1a;
+            margin: 0.5rem 0 0.3rem;
+        }
+        .modal-compartilhar .sub-text {
+            font-size: 0.95rem;
+            color: #5c3e2a;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        .modal-compartilhar .persuasive {
+            background: #fef1cf;
+            border-radius: 16px;
+            padding: 0.8rem 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #c9a03d;
+            text-align: left;
+            font-size: 0.85rem;
+            color: #2c1a0c;
+        }
+        .modal-compartilhar .persuasive i {
+            color: #b85c1a;
+            margin-right: 6px;
+        }
+        .modal-compartilhar .btn-copiar {
+            background: linear-gradient(135deg, #c9a03d, #e6b422);
+            border: none;
+            color: #1e1510;
+            font-weight: 800;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(201,160,61,0.4);
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        .modal-compartilhar .btn-copiar:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(201,160,61,0.5);
+        }
+        .modal-compartilhar .btn-copiar i {
+            margin-right: 8px;
+        }
+        .modal-compartilhar .btn-whatsapp-share {
+            background: #25d366;
+            color: white;
+            border: none;
+            font-weight: 700;
+            padding: 0.7rem 1.5rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            margin-top: 0.6rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .modal-compartilhar .btn-whatsapp-share:hover {
+            background: #128C7E;
+        }
+        .modal-compartilhar .feedback {
+            font-size: 0.8rem;
+            color: #25d366;
+            margin-top: 0.5rem;
+            height: 1.2rem;
+            transition: 0.2s;
+        }
+
+        .btn-meu-pedido {
+            position:fixed;
+            bottom:20px;
+            left:20px;
+            background: linear-gradient(135deg, #e6b422 0%, #c99c2e 100%);
+            color:#2c1a0c;
+            border:none;
+            padding:0.7rem 1.4rem;
+            border-radius:50px;
+            font-weight:800;
+            font-size:1rem;
+            box-shadow:0 6px 16px rgba(0,0,0,0.25);
+            cursor:pointer;
+            z-index:1000;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            transition:0.2s;
+            letter-spacing:0.5px;
+            border:1px solid rgba(255,215,0,0.5);
+        }
+        .btn-meu-pedido i { font-size:1.2rem; }
+        .btn-meu-pedido:hover {
+            background: linear-gradient(135deg, #f5c542 0%, #daae3a 100%);
+            transform:scale(1.03);
+            box-shadow:0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .moida-placeholder { text-align:center; padding:1.5rem; background:#fff4e4; border-radius:40px; max-width:500px; margin:auto; }
+
+        /* ===== MODAL MOAGEM ===== */
         .modal-overlay {
             position:fixed;
             top:0; left:0;
@@ -884,20 +847,135 @@
         .modal-overlay.active { visibility:visible; opacity:1; }
         .modal-container {
             background:#fffaf0;
-            border-radius:28px;
-            max-width:500px;
-            width:90%;
-            padding:1.2rem;
+            border-radius:32px;
+            max-width:520px;
+            width:92%;
+            padding:1.8rem 1.5rem;
+            box-shadow:0 20px 60px rgba(0,0,0,0.3);
+            border:2px solid #c9a03d;
+            position:relative;
         }
-        .close-modal { float:right; font-size:1.6rem; cursor:pointer; }
-        .form-group { margin-bottom:0.8rem; }
-        .form-group label { font-weight:600; display:block; font-size:0.75rem; }
-        .form-group input, .form-group select { width:100%; padding:0.4rem; border-radius:40px; border:1px solid #d4bf9a; font-size:0.75rem; }
-        .btn-modal-submit { background:#25d366; color:white; width:100%; padding:0.4rem; border-radius:40px; border:none; font-weight:bold; margin-top:0.4rem; font-size:0.8rem; }
-        .info-text { font-size:0.65rem; text-align:center; margin-top:0.4rem; }
-        .moida-placeholder { text-align:center; padding:1.5rem; background:#fff4e4; border-radius:40px; max-width:500px; margin:auto; }
-        .custom-meat-group { border-top: 1px dashed #c9a03d; margin-top: 0.8rem; padding-top: 0.8rem; display: none; }
-        .custom-meat-group.show { display: block; }
+        .close-modal {
+            position:absolute;
+            top:12px;
+            right:18px;
+            font-size:1.8rem;
+            cursor:pointer;
+            color:#8b5a2b;
+            background:transparent;
+            border:none;
+            transition:0.2s;
+        }
+        .close-modal:hover { transform:rotate(90deg); color:#b85c1a; }
+        .modal-container h3 {
+            font-family:'Playfair Display',serif;
+            font-size:1.6rem;
+            color:#3d2a1a;
+            margin-bottom:0.2rem;
+            display:flex;
+            align-items:center;
+            gap:0.5rem;
+        }
+        .modal-container h3 i { color:#c9a03d; }
+        .modal-subtitle {
+            color:#6b5a48;
+            font-size:0.8rem;
+            margin-bottom:1.2rem;
+            border-bottom:1px solid #e9dbba;
+            padding-bottom:0.6rem;
+        }
+        .form-group {
+            margin-bottom:1rem;
+        }
+        .form-group label {
+            font-weight:600;
+            display:block;
+            font-size:0.8rem;
+            color:#3d2a1a;
+            margin-bottom:0.3rem;
+        }
+        .form-group input, .form-group select {
+            width:100%;
+            padding:0.5rem 0.8rem;
+            border-radius:40px;
+            border:1px solid #d4bf9a;
+            font-size:0.85rem;
+            background:white;
+            transition:0.2s;
+            font-family:inherit;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline:none;
+            border-color:#c9a03d;
+            box-shadow:0 0 0 3px rgba(201,160,61,0.2);
+        }
+        .custom-meat-group {
+            border-top:1px dashed #c9a03d;
+            margin-top:0.5rem;
+            padding-top:0.8rem;
+            display:none;
+        }
+        .custom-meat-group.show { display:block; }
+        .info-text {
+            font-size:0.7rem;
+            color:#886e4b;
+            margin-top:0.2rem;
+        }
+
+        /* Resumo da moagem */
+        .resumo-moagem {
+            background:#f9f5ea;
+            border-radius:20px;
+            padding:0.8rem 1rem;
+            margin:1rem 0 1.2rem;
+            border:1px solid #e9dbba;
+        }
+        .linha-resumo {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            font-size:0.85rem;
+            padding:0.2rem 0;
+        }
+        .linha-resumo:not(:last-child) {
+            border-bottom:1px dashed #e0d3be;
+        }
+        .linha-resumo strong {
+            color:#b85c1a;
+            font-size:1rem;
+        }
+        .linha-resumo .valor-destaque {
+            font-weight:700;
+            color:#b85c1a;
+        }
+        .btn-modal-submit {
+            background:linear-gradient(135deg, #25d366, #128C7E);
+            color:white;
+            width:100%;
+            padding:0.7rem;
+            border-radius:40px;
+            font-weight:700;
+            border:none;
+            font-size:0.9rem;
+            cursor:pointer;
+            transition:0.2s;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:8px;
+        }
+        .btn-modal-submit:hover {
+            transform:scale(1.02);
+            box-shadow:0 4px 12px rgba(37,211,102,0.3);
+        }
+
+        @media (max-width:480px) {
+            .modal-container { padding:1.2rem; }
+            .modal-container h3 { font-size:1.3rem; }
+            .linha-resumo { font-size:0.75rem; }
+            .linha-resumo strong { font-size:0.9rem; }
+        }
+
         .edit-field {
             margin: 1rem 0;
         }
@@ -934,6 +1012,44 @@
         .btn-cancel {
             background-color: #aaa;
             color: #2c1a0c;
+        }
+
+        /* ===== NOVA SEÇÃO "FAÇA SEU CARDÁPIO DIGITAL" ===== */
+        .cardapio-digital-footer {
+            background: linear-gradient(135deg, #2b1e12, #3d2a1a);
+            border-top: 3px solid #c9a03d;
+            padding: 0.8rem 1rem;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: #f3d382;
+            font-weight: 500;
+        }
+        .cardapio-digital-footer a {
+            color: #25d366;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.2s;
+        }
+        .cardapio-digital-footer a:hover {
+            color: #128C7E;
+        }
+        .cardapio-digital-footer a i {
+            font-size: 1.2rem;
+        }
+        @media (max-width: 480px) {
+            .cardapio-digital-footer {
+                font-size: 0.75rem;
+                gap: 0.4rem;
+                padding: 0.6rem 0.5rem;
+            }
         }
     </style>
 </head>
@@ -988,14 +1104,16 @@
             <img src="https://i.ibb.co/WvpRycP2/Screenshot-20260621-201613-Fotos.png" alt="Promoção Boi Nobre">
         </div>
         <div class="products-grid" id="bovina-visible-grid">
+            <!-- 6 primeiros visíveis -->
             <div class="product-card" data-name="Picanha" data-price="94.99"><div class="card-inner"><div class="product-name"><span>Corte Nobre</span> Picanha</div><div class="product-desc">Peça tradicional, suculenta.</div><div class="product-price">R$ 94,99 <small>/kg</small></div><div class="product-total">R$ 94,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Contra-filé" data-price="62.99"><div class="card-inner"><div class="product-name"><span>Corte Nobre</span> Contra-filé</div><div class="product-desc">Marmorizado, ótimo para churrasco.</div><div class="product-price">R$ 62,99 <small>/kg</small></div><div class="product-total">R$ 62,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Alcatra" data-price="58.99"><div class="card-inner"><div class="product-name"><span>Macia</span> Alcatra</div><div class="product-desc">Versátil para bifes ou assados.</div><div class="product-price">R$ 58,99 <small>/kg</small></div><div class="product-total">R$ 58,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Coxão mole" data-price="49.99"><div class="card-inner"><div class="product-name"><span>Suculento</span> Coxão mole</div><div class="product-desc">Ideal para bifes e refogados.</div><div class="product-price">R$ 49,99 <small>/kg</small></div><div class="product-total">R$ 49,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Ponta de picanha" data-price="47.99"><div class="card-inner"><div class="product-name"><span>Saborosa</span> Ponta de picanha</div><div class="product-desc">Extremidade saborosa.</div><div class="product-price">R$ 47,99 <small>/kg</small></div><div class="product-total">R$ 47,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Cabeça da picanha" data-price="59.99"><div class="card-inner"><div class="product-name"><span>Nobre</span> Cabeça da picanha</div><div class="product-desc">Parte nobre da picanha.</div><div class="product-price">R$ 59,99 <small>/kg</small></div><div class="product-total">R$ 59,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
         </div>
         <div class="products-grid-hidden" id="bovina-hidden-grid">
-            <div class="product-card" data-name="Cabeça da picanha" data-price="59.99"><div class="card-inner"><div class="product-name"><span>Nobre</span> Cabeça da picanha</div><div class="product-desc">Parte nobre da picanha.</div><div class="product-price">R$ 59,99 <small>/kg</small></div><div class="product-total">R$ 59,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <!-- Restante oculto -->
             <div class="product-card" data-name="Patinho" data-price="48.99"><div class="card-inner"><div class="product-name"><span>Magro</span> Patinho</div><div class="product-desc">Corte magro.</div><div class="product-price">R$ 48,99 <small>/kg</small></div><div class="product-total">R$ 48,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Músculo" data-price="38.99"><div class="card-inner"><div class="product-name"><span>Cozido</span> Músculo</div><div class="product-desc">Ideal para cozidos e ensopados.</div><div class="product-price">R$ 38,99 <small>/kg</small></div><div class="product-total">R$ 38,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Acém" data-price="38.99"><div class="card-inner"><div class="product-name"><span>Versátil</span> Acém</div><div class="product-desc">Ótimo para cozidos.</div><div class="product-price">R$ 38,99 <small>/kg</small></div><div class="product-total">R$ 38,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
@@ -1024,7 +1142,6 @@
             <div class="product-card" data-name="Hambúrguer" data-price="36.99"><div class="card-inner"><div class="product-name"><span>Hambúrguer</span> Hambúrguer artesanal</div><div class="product-desc">Puro carne bovina.</div><div class="product-price">R$ 36,99 <small>/kg</small></div><div class="product-total">R$ 36,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
         </div>
         <button class="toggle-products-btn" data-section="bovina">Mostrar mais carnes</button>
-        <!-- ANÚNCIO ÚNICO FORMATO 16:5 -->
         <div class="ad-single">
             <div class="ad-single-content">
                 <span class="badge"><i class="fas fa-bullhorn"></i> ÚLTIMA VAGA!</span>
@@ -1043,21 +1160,22 @@
             <img src="https://i.ibb.co/JW06Y52p/Screenshot-20260621-201705-Fotos.png" alt="Promoção Carne Suína">
         </div>
         <div class="products-grid" id="suina-visible-grid">
+            <!-- 6 primeiros visíveis -->
             <div class="product-card" data-name="Pernil" data-price="27.99"><div class="card-inner"><div class="product-name"><span>Assado</span> Pernil</div><div class="product-desc">Suculento, ideal para assar.</div><div class="product-price">R$ 27,99 <small>/kg</small></div><div class="product-total">R$ 27,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Lombo" data-price="31.99"><div class="card-inner"><div class="product-name"><span>Magro</span> Lombo</div><div class="product-desc">Macio e versátil.</div><div class="product-price">R$ 31,99 <small>/kg</small></div><div class="product-total">R$ 31,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Costelinha" data-price="29.99"><div class="card-inner"><div class="product-name"><span>Defumada</span> Costelinha</div><div class="product-desc">Ideal para churrasco.</div><div class="product-price">R$ 29,99 <small>/kg</small></div><div class="product-total">R$ 29,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Bisteca" data-price="24.99"><div class="card-inner"><div class="product-name"><span>Grelhada</span> Bisteca</div><div class="product-desc">Com osso, saborosa.</div><div class="product-price">R$ 24,99 <small>/kg</small></div><div class="product-total">R$ 24,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Copa lombo" data-price="34.99"><div class="card-inner"><div class="product-name"><span>Nobre</span> Copa lombo</div><div class="product-desc">Corte suculento.</div><div class="product-price">R$ 34,99 <small>/kg</small></div><div class="product-total">R$ 34,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Barriga" data-price="32.99"><div class="card-inner"><div class="product-name"><span>Saborosa</span> Barriga</div><div class="product-desc">Perfeita para torresmo.</div><div class="product-price">R$ 32,99 <small>/kg</small></div><div class="product-total">R$ 32,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
         </div>
         <div class="products-grid-hidden" id="suina-hidden-grid">
-            <div class="product-card" data-name="Barriga" data-price="32.99"><div class="card-inner"><div class="product-name"><span>Saborosa</span> Barriga</div><div class="product-desc">Perfeita para torresmo.</div><div class="product-price">R$ 32,99 <small>/kg</small></div><div class="product-total">R$ 32,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <!-- Restante oculto -->
             <div class="product-card" data-name="Toucinho" data-price="19.99"><div class="card-inner"><div class="product-name"><span>Gordura</span> Toucinho</div><div class="product-desc">Para temperos e frituras.</div><div class="product-price">R$ 19,99 <small>/kg</small></div><div class="product-total">R$ 19,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Torresmo prime" data-price="38.99"><div class="card-inner"><div class="product-name"><span>Crocante</span> Torresmo prime</div><div class="product-desc">Torresmo de alta qualidade.</div><div class="product-price">R$ 38,99 <small>/kg</small></div><div class="product-total">R$ 38,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Pé suíno" data-price="21.99"><div class="card-inner"><div class="product-name"><span>Miúdo</span> Pé suíno</div><div class="product-desc">Para caldos e feijoada.</div><div class="product-price">R$ 21,99 <small>/kg</small></div><div class="product-total">R$ 21,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Orelha" data-price="21.99"><div class="card-inner"><div class="product-name"><span>Miúdo</span> Orelha</div><div class="product-desc">Para feijoada.</div><div class="product-price">R$ 21,99 <small>/kg</small></div><div class="product-total">R$ 21,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
         </div>
         <button class="toggle-products-btn" data-section="suina">Mostrar mais carnes</button>
-        <!-- ANÚNCIO ÚNICO FORMATO 16:5 -->
         <div class="ad-single">
             <div class="ad-single-content">
                 <span class="badge"><i class="fas fa-bullhorn"></i> ATENÇÃO EMPRESÁRIO!</span>
@@ -1076,14 +1194,16 @@
             <img src="https://i.ibb.co/Y7W4jCbN/Screenshot-20260621-202108-Fotos.png" alt="Promoção Frango">
         </div>
         <div class="products-grid" id="frango-visible-grid">
+            <!-- 6 primeiros visíveis -->
             <div class="product-card" data-name="Frango assado" data-price="49.99"><div class="card-inner"><div class="product-name"><span>Assado</span> Frango assado</div><div class="product-desc">Peça inteira pronta para assar.</div><div class="product-price">R$ 49,99 <small>/kg</small></div><div class="product-total">R$ 49,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Filé de peito" data-price="34.99"><div class="card-inner"><div class="product-name"><span>Filé</span> Filé de peito</div><div class="product-desc">Peito de frango sem osso.</div><div class="product-price">R$ 34,99 <small>/kg</small></div><div class="product-total">R$ 34,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Coxa" data-price="21.99"><div class="card-inner"><div class="product-name"><span>Frango</span> Coxa</div><div class="product-desc">Coxa de frango.</div><div class="product-price">R$ 21,99 <small>/kg</small></div><div class="product-total">R$ 21,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Sobrecoxa" data-price="24.99"><div class="card-inner"><div class="product-name"><span>Frango</span> Sobrecoxa</div><div class="product-desc">Suculenta.</div><div class="product-price">R$ 24,99 <small>/kg</small></div><div class="product-total">R$ 24,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Coxa e sobrecoxa" data-price="19.99"><div class="card-inner"><div class="product-name"><span>Conjunto</span> Coxa e sobrecoxa</div><div class="product-desc">Kit econômico.</div><div class="product-price">R$ 19,99 <small>/kg</small></div><div class="product-total">R$ 19,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <div class="product-card" data-name="Filé de Coxa e sobrecoxa na cerveja preta" data-price="22.99"><div class="card-inner"><div class="product-name"><span>Temperado</span> Filé na cerveja preta</div><div class="product-desc">Com cerveja preta.</div><div class="product-price">R$ 22,99 <small>/kg</small></div><div class="product-total">R$ 22,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
         </div>
         <div class="products-grid-hidden" id="frango-hidden-grid">
-            <div class="product-card" data-name="Filé de Coxa e sobrecoxa na cerveja preta" data-price="22.99"><div class="card-inner"><div class="product-name"><span>Temperado</span> Filé na cerveja preta</div><div class="product-desc">Com cerveja preta.</div><div class="product-price">R$ 22,99 <small>/kg</small></div><div class="product-total">R$ 22,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
+            <!-- Restante oculto -->
             <div class="product-card" data-name="Filé de Coxa e sobrecoxa na mostarda" data-price="22.99"><div class="card-inner"><div class="product-name"><span>Temperado</span> Filé na mostarda</div><div class="product-desc">Com mostarda.</div><div class="product-price">R$ 22,99 <small>/kg</small></div><div class="product-total">R$ 22,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Meio da asa" data-price="39.99"><div class="card-inner"><div class="product-name"><span>Asa</span> Meio da asa</div><div class="product-desc">Parte média da asa.</div><div class="product-price">R$ 39,99 <small>/kg</small></div><div class="product-total">R$ 39,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Tulipa na mostarda" data-price="42.99"><div class="card-inner"><div class="product-name"><span>Temperada</span> Tulipa na mostarda</div><div class="product-desc">Tulipa com mostarda.</div><div class="product-price">R$ 42,99 <small>/kg</small></div><div class="product-total">R$ 42,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
@@ -1095,7 +1215,6 @@
             <div class="product-card" data-name="Fran bacon" data-price="59.99"><div class="card-inner"><div class="product-name"><span>Especial</span> Fran bacon</div><div class="product-desc">Filé enrolado com bacon.</div><div class="product-price">R$ 59,99 <small>/kg</small></div><div class="product-total">R$ 59,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
         </div>
         <button class="toggle-products-btn" data-section="frango">Mostrar mais carnes</button>
-        <!-- ANÚNCIO ÚNICO FORMATO 16:5 -->
         <div class="ad-single">
             <div class="ad-single-content">
                 <span class="badge"><i class="fas fa-bullhorn"></i> VAGAS LIMITADAS!</span>
@@ -1111,7 +1230,6 @@
     <section id="tab-moida" class="tab-content">
         <div class="title-wrapper"><h2 class="section-title">🥩 Carne Moída</h2></div>
         <div class="moida-placeholder"><i class="fas fa-blender"></i><p><strong>Moagem de carnes</strong></p><p>Escolha o corte bovino, peso e quantas vezes moer.</p><button id="abrirModalBtn" style="background:#c9a03d; border:none; padding:0.5rem 1rem; border-radius:40px; font-weight:bold; font-size:0.8rem;"><i class="fas fa-arrow-right"></i> Escolher carne para moer</button></div>
-        <!-- ANÚNCIO ÚNICO FORMATO 16:5 -->
         <div class="ad-single">
             <div class="ad-single-content">
                 <span class="badge"><i class="fas fa-bullhorn"></i> OPORTUNIDADE ÚNICA!</span>
@@ -1124,24 +1242,71 @@
     </section>
 </main>
 
-<!-- MODAL MOAGEM -->
+<!-- ===== MODAL MOAGEM ===== -->
 <div id="modalMoida" class="modal-overlay">
     <div class="modal-container">
-        <span class="close-modal">&times;</span>
+        <button class="close-modal">&times;</button>
         <h3><i class="fas fa-blender"></i> Moer Carne</h3>
+        <div class="modal-subtitle">Escolha o corte, quantidade e a moagem ideal</div>
         <div class="banner-modal">
             <img src="https://i.ibb.co/bjDgDtCH/Screenshot-20260621-201726-Fotos.png" alt="Moagem de Carnes">
         </div>
-        <div class="form-group"><label>Selecione a carne bovina desejada:</label><select id="carneSelect"></select></div>
+
+        <div class="form-group">
+            <label><i class="fas fa-drumstick-bite"></i> Selecione a carne bovina</label>
+            <select id="carneSelect"></select>
+        </div>
+
         <div id="customMeatGroup" class="custom-meat-group">
-            <div class="form-group"><label>Nome da carne (personalizado):</label><input type="text" id="customNomeCarne" placeholder="Ex.: Carne de sol"></div>
-            <div class="form-group"><label>Preço (R$/kg):</label><input type="number" id="customPrecoCarne" step="0.01" min="0.01" placeholder="Digite o preço"></div>
+            <div class="form-group">
+                <label>Nome da carne (personalizado)</label>
+                <input type="text" id="customNomeCarne" placeholder="Ex.: Carne de sol">
+            </div>
+            <div class="form-group">
+                <label>Preço (R$/kg)</label>
+                <input type="number" id="customPrecoCarne" step="0.01" min="0.01" placeholder="Digite o preço">
+            </div>
             <small class="info-text">Preencha ambos os campos para adicionar uma carne personalizada.</small>
         </div>
-        <div class="form-group"><label>Peso (kg):</label><input type="number" id="pesoMoida" step="0.1" min="0.1" value="1.0"></div>
-        <div class="form-group"><label>Moer quantas vezes?</label><select id="vezesMoida"><option value="1">1 vez</option><option value="2">2 vezes</option><option value="3">3 vezes</option></select></div>
-        <button class="btn-modal-submit" id="addMoagemCarrinho"><i class="fas fa-cart-plus"></i> Adicionar ao carrinho</button>
-        <div class="info-text">Moagem na hora, com o corte de sua preferência.</div>
+
+        <div class="form-group">
+            <label><i class="fas fa-weight-hanging"></i> Peso (kg)</label>
+            <input type="number" id="pesoMoida" step="0.1" min="0.1" value="1.0">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fas fa-repeat"></i> Moer quantas vezes?</label>
+            <select id="vezesMoida">
+                <option value="1">1 vez</option>
+                <option value="2">2 vezes</option>
+                <option value="3">3 vezes</option>
+            </select>
+        </div>
+
+        <!-- RESUMO DA MOAGEM (atualizado em tempo real) -->
+        <div class="resumo-moagem" id="resumoMoagem">
+            <div class="linha-resumo">
+                <span>Carne:</span>
+                <span id="resumoCarneNome" class="valor-destaque">-</span>
+            </div>
+            <div class="linha-resumo">
+                <span>Preço:</span>
+                <span id="resumoPreco" class="valor-destaque">R$ 0,00 /kg</span>
+            </div>
+            <div class="linha-resumo">
+                <span>Peso:</span>
+                <span id="resumoPeso" class="valor-destaque">1,0 kg</span>
+            </div>
+            <div class="linha-resumo">
+                <span><strong>Subtotal:</strong></span>
+                <span id="resumoSubtotal" class="valor-destaque" style="font-size:1.1rem;">R$ 0,00</span>
+            </div>
+        </div>
+
+        <button class="btn-modal-submit" id="addMoagemCarrinho">
+            <i class="fas fa-cart-plus"></i> Adicionar ao carrinho
+        </button>
+        <div class="info-text" style="text-align:center; margin-top:0.5rem;">Moagem na hora, com o corte de sua preferência.</div>
     </div>
 </div>
 
@@ -1209,10 +1374,16 @@
     <div class="copyright">© 2026 Casa de Carne Boi Nobre</div>
 </footer>
 
-<!-- Botão Meu Pedido (esquerda) -->
+<!-- ===== NOVA SEÇÃO "FAÇA SEU CARDÁPIO DIGITAL" ===== -->
+<div class="cardapio-digital-footer">
+    <span>📲 Faça o seu cardápio digital aqui</span>
+    <a href="https://wa.me/5534991058994" target="_blank">
+        <i class="fab fa-whatsapp"></i> (34) 99105-8994
+    </a>
+</div>
+
 <button id="btnMeuPedidoFooter" class="btn-meu-pedido"><i class="fas fa-shopping-cart"></i> Meu Pedido <span id="carrinhoCount">(0)</span></button>
 
-<!-- Botões flutuantes (direita) -->
 <div class="float-buttons">
     <button class="float-share" id="btnShare" title="Compartilhar cardápio">
         <i class="fas fa-share-alt"></i>
@@ -1222,7 +1393,7 @@
     </a>
 </div>
 
-<!-- ===== MODAL DE COMPARTILHAR (POP-UP PERSUASIVO) ===== -->
+<!-- MODAL DE COMPARTILHAR -->
 <div id="modalCompartilhar" class="modal-compartilhar">
     <div class="modal-compartilhar-container">
         <button class="close-share" id="closeShare">&times;</button>
@@ -1231,7 +1402,7 @@
         <p class="sub-text">Espalhe o sabor da carne nobre e ajude seus amigos a descobrirem os melhores cortes.</p>
         <div class="persuasive">
             <i class="fas fa-bullhorn"></i>
-            <strong>Chame a família e os amigos!</strong> Quanto mais gente conhece, mais gente aproveita a qualidade Boi Nobre. 
+            <strong>Chame a família e os amigos!</strong> Quanto mais gente conhece, mais gente aproveita a qualidade Boi Nobre.
             <span style="display:block; margin-top:4px; color:#b85c1a;">🚀 Compartilhe agora e ganhe pontos com a turma!</span>
         </div>
         <button class="btn-copiar" id="copiarLinkBtn"><i class="fas fa-link"></i> Copiar link do cardápio</button>
@@ -1241,91 +1412,52 @@
 </div>
 
 <script>
-    // ========== SPLASH SCREEN ==========
+    // ========== SPLASH ==========
     (function() {
         const splash = document.getElementById('splash-screen');
-        setTimeout(() => {
-            splash.classList.add('hide');
-        }, 3000);
+        setTimeout(() => { splash.classList.add('hide'); }, 3000);
     })();
 
-    // ========== COMPARTILHAR - ABRIR MODAL ==========
+    // ========== COMPARTILHAR ==========
     const modalShare = document.getElementById('modalCompartilhar');
     const btnShare = document.getElementById('btnShare');
     const closeShare = document.getElementById('closeShare');
     const feedback = document.getElementById('feedbackCopiar');
-
-    function abrirModalShare() {
-        modalShare.classList.add('active');
-        feedback.textContent = ''; // limpar feedback anterior
-    }
-
-    function fecharModalShare() {
-        modalShare.classList.remove('active');
-    }
-
+    function abrirModalShare() { modalShare.classList.add('active'); feedback.textContent = ''; }
+    function fecharModalShare() { modalShare.classList.remove('active'); }
     btnShare.addEventListener('click', abrirModalShare);
     closeShare.addEventListener('click', fecharModalShare);
-    modalShare.addEventListener('click', function(e) {
-        if (e.target === modalShare) fecharModalShare();
-    });
+    modalShare.addEventListener('click', function(e) { if (e.target === modalShare) fecharModalShare(); });
 
-    // ========== COPIAR LINK ==========
     const link = 'https://luciano05041983-cloud.github.io/Casa-de-Carnes-Boi-Nobre/';
-
     document.getElementById('copiarLinkBtn').addEventListener('click', function() {
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(link).then(() => {
                 feedback.textContent = '✅ Link copiado com sucesso!';
                 feedback.style.color = '#25d366';
-            }).catch(() => {
-                fallbackCopiar(link);
-            });
-        } else {
-            fallbackCopiar(link);
-        }
+            }).catch(() => fallbackCopiar(link));
+        } else fallbackCopiar(link);
     });
-
     function fallbackCopiar(texto) {
         const textarea = document.createElement('textarea');
         textarea.value = texto;
         document.body.appendChild(textarea);
         textarea.select();
-        try {
-            document.execCommand('copy');
-            feedback.textContent = '✅ Link copiado com sucesso!';
-            feedback.style.color = '#25d366';
-        } catch (e) {
-            alert('Não foi possível copiar. Copie manualmente: ' + texto);
-        }
+        try { document.execCommand('copy'); feedback.textContent = '✅ Link copiado com sucesso!'; feedback.style.color = '#25d366'; }
+        catch (e) { alert('Não foi possível copiar. Copie manualmente: ' + texto); }
         document.body.removeChild(textarea);
     }
-
-    // ========== COMPARTILHAR VIA WHATSAPP ==========
     document.getElementById('compartilharWhatsApp').addEventListener('click', function() {
         const mensagem = `🍖 *Boi Nobre - Cardápio Digital* 🍖\nConfira os melhores cortes de carne! 👇\n${link}`;
-        const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
-        window.open(url, '_blank');
+        window.open(`https://wa.me/?text=${encodeURIComponent(mensagem)}`, '_blank');
         fecharModalShare();
     });
 
-    // ========== CARRINHO GLOBAL (mantido) ==========
+    // ========== CARRINHO ==========
     let carrinho = [];
-
-    function salvarCarrinho() {
-        localStorage.setItem('carrinhoBoiNobre', JSON.stringify(carrinho));
-        atualizarContador();
-    }
-    function carregarCarrinho() {
-        const saved = localStorage.getItem('carrinhoBoiNobre');
-        if(saved) carrinho = JSON.parse(saved);
-        atualizarContador();
-        renderizarCarrinhoModal();
-    }
-    function atualizarContador() {
-        const countSpan = document.getElementById('carrinhoCount');
-        if(countSpan) countSpan.innerText = `(${carrinho.length})`;
-    }
+    function salvarCarrinho() { localStorage.setItem('carrinhoBoiNobre', JSON.stringify(carrinho)); atualizarContador(); }
+    function carregarCarrinho() { const saved = localStorage.getItem('carrinhoBoiNobre'); if(saved) carrinho = JSON.parse(saved); atualizarContador(); renderizarCarrinhoModal(); }
+    function atualizarContador() { const countSpan = document.getElementById('carrinhoCount'); if(countSpan) countSpan.innerText = `(${carrinho.length})`; }
     function adicionarAoCarrinho(nome, precoKg, peso, detalhe = '') {
         const id = Date.now() + Math.random() * 1000;
         const total = precoKg * peso;
@@ -1334,56 +1466,27 @@
         alert(`${nome} adicionado ao carrinho!`);
         renderizarCarrinhoModal();
     }
-    function removerDoCarrinho(id) {
-        carrinho = carrinho.filter(item => item.id != id);
-        salvarCarrinho();
-        renderizarCarrinhoModal();
-    }
+    function removerDoCarrinho(id) { carrinho = carrinho.filter(item => item.id != id); salvarCarrinho(); renderizarCarrinhoModal(); }
     let editandoItemId = null;
     function abrirModalEdicao(id) {
         const item = carrinho.find(i => i.id == id);
-        if(item) {
-            editandoItemId = id;
-            document.getElementById('editNome').value = item.nome;
-            document.getElementById('editPeso').value = item.peso;
-            document.getElementById('modalEdicao').classList.add('active');
-        }
+        if(item) { editandoItemId = id; document.getElementById('editNome').value = item.nome; document.getElementById('editPeso').value = item.peso; document.getElementById('modalEdicao').classList.add('active'); }
     }
     function salvarEdicao() {
         if(editandoItemId === null) return;
         const novoPeso = parseFloat(document.getElementById('editPeso').value);
-        if(isNaN(novoPeso) || novoPeso <= 0) {
-            alert("Peso inválido. Digite um valor maior que zero.");
-            return;
-        }
+        if(isNaN(novoPeso) || novoPeso <= 0) { alert("Peso inválido. Digite um valor maior que zero."); return; }
         const item = carrinho.find(i => i.id == editandoItemId);
-        if(item) {
-            item.peso = novoPeso;
-            item.total = item.precoKg * novoPeso;
-            salvarCarrinho();
-            renderizarCarrinhoModal();
-            fecharModalEdicao();
-            alert("Peso atualizado com sucesso!");
-        }
+        if(item) { item.peso = novoPeso; item.total = item.precoKg * novoPeso; salvarCarrinho(); renderizarCarrinhoModal(); fecharModalEdicao(); alert("Peso atualizado com sucesso!"); }
     }
-    function fecharModalEdicao() {
-        document.getElementById('modalEdicao').classList.remove('active');
-        editandoItemId = null;
-    }
-    function editarItemCarrinho(id) {
-        abrirModalEdicao(id);
-    }
+    function fecharModalEdicao() { document.getElementById('modalEdicao').classList.remove('active'); editandoItemId = null; }
+    function editarItemCarrinho(id) { abrirModalEdicao(id); }
     function renderizarCarrinhoModal() {
         const container = document.getElementById('listaItensPedido');
         const totalSpan = document.getElementById('totalPedido');
         if(!container) return;
-        if(carrinho.length === 0) {
-            container.innerHTML = '<p style="text-align:center; padding:0.5rem;">Seu carrinho está vazio.</p>';
-            totalSpan.innerText = 'Total: R$ 0,00';
-            return;
-        }
-        let html = '';
-        let totalGeral = 0;
+        if(carrinho.length === 0) { container.innerHTML = '<p style="text-align:center; padding:0.5rem;">Seu carrinho está vazio.</p>'; totalSpan.innerText = 'Total: R$ 0,00'; return; }
+        let html = '', totalGeral = 0;
         carrinho.forEach(item => {
             totalGeral += item.total;
             html += `
@@ -1403,7 +1506,6 @@
         container.innerHTML = html;
         totalSpan.innerText = `Total: R$ ${totalGeral.toFixed(2)}`;
     }
-    
     function enviarPedidoCompleto() {
         if(carrinho.length === 0) { alert("Seu carrinho está vazio."); return false; }
         const nomeCliente = document.getElementById('clienteNome').value.trim();
@@ -1438,7 +1540,6 @@
         window.open(`https://wa.me/5534998915390?text=${encodeURIComponent(mensagem)}`, '_blank');
         return true;
     }
-    
     function configurarCamposCondicionais() {
         const entregaSelect = document.getElementById('entregaSelect');
         const enderecoGroup = document.getElementById('enderecoGroup');
@@ -1450,8 +1551,8 @@
         pagamentoSelect.addEventListener('change', toggleTroco);
         toggleEndereco(); toggleTroco();
     }
-    
-    // Funções auxiliares
+
+    // ========== FUNÇÕES DOS PRODUTOS ==========
     function atualizarTotalCard(card) {
         const preco = parseFloat(card.getAttribute('data-price'));
         const kgInput = card.querySelector('.kg-input');
@@ -1485,8 +1586,9 @@
                     hiddenGrid.classList.toggle('show');
                     btn.textContent = hiddenGrid.classList.contains('show') ? 'Mostrar menos carnes' : 'Mostrar mais carnes';
                     if(estavaExpandido && !hiddenGrid.classList.contains('show')) {
+                        // Rolar até o título da seção com offset
                         const titulo = btn.closest('section')?.querySelector('.section-title');
-                        if(titulo) titulo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        if(titulo) scrollToSection(titulo);
                     }
                 }
             };
@@ -1512,12 +1614,118 @@
         if(!select) return;
         const carnes = obterTodasCarnesBovinas();
         select.innerHTML = '';
-        carnes.forEach(c => { const opt = document.createElement('option'); opt.value = c.preco; opt.textContent = `${c.nome} - R$ ${c.preco.toFixed(2)}/kg`; opt.setAttribute('data-nome', c.nome); select.appendChild(opt); });
+        carnes.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.preco;
+            opt.textContent = `${c.nome} - R$ ${c.preco.toFixed(2)}/kg`;
+            opt.setAttribute('data-nome', c.nome);
+            select.appendChild(opt);
+        });
         select.appendChild(new Option("✏️ Outro (digitar nome)", "outro"));
+        // dispara atualização do resumo
+        atualizarResumoMoagem();
     }
-    const selectCarne = document.getElementById('carneSelect');
-    const customGroup = document.getElementById('customMeatGroup');
-    if(selectCarne) selectCarne.addEventListener('change', function() { customGroup.classList.toggle('show', this.value === "outro"); });
+
+    // ========== FUNÇÕES DO MODAL MOAGEM ==========
+    function atualizarResumoMoagem() {
+        const select = document.getElementById('carneSelect');
+        const pesoInput = document.getElementById('pesoMoida');
+        const customNome = document.getElementById('customNomeCarne');
+        const customPreco = document.getElementById('customPrecoCarne');
+
+        let nome = '', precoKg = 0;
+        const isOutro = select.value === "outro";
+
+        if (isOutro) {
+            nome = customNome.value.trim() || 'Carne personalizada';
+            precoKg = parseFloat(customPreco.value) || 0;
+        } else {
+            const selectedOption = select.options[select.selectedIndex];
+            nome = selectedOption?.getAttribute('data-nome') || 'Selecione uma carne';
+            precoKg = parseFloat(select.value) || 0;
+        }
+
+        const peso = parseFloat(pesoInput.value) || 0;
+        const subtotal = precoKg * peso;
+
+        document.getElementById('resumoCarneNome').textContent = nome;
+        document.getElementById('resumoPreco').textContent = `R$ ${precoKg.toFixed(2)} /kg`;
+        document.getElementById('resumoPeso').textContent = `${peso.toFixed(2)} kg`;
+        document.getElementById('resumoSubtotal').textContent = `R$ ${subtotal.toFixed(2)}`;
+    }
+
+    // Configurar eventos do modal moagem
+    function configurarModalMoagem() {
+        const select = document.getElementById('carneSelect');
+        const pesoInput = document.getElementById('pesoMoida');
+        const customNome = document.getElementById('customNomeCarne');
+        const customPreco = document.getElementById('customPrecoCarne');
+        const customGroup = document.getElementById('customMeatGroup');
+
+        // Mostrar/esconder campos personalizados
+        select.addEventListener('change', function() {
+            customGroup.classList.toggle('show', this.value === "outro");
+            atualizarResumoMoagem();
+        });
+
+        // Eventos para atualizar resumo
+        pesoInput.addEventListener('input', atualizarResumoMoagem);
+        customNome.addEventListener('input', atualizarResumoMoagem);
+        customPreco.addEventListener('input', atualizarResumoMoagem);
+
+        // Também ao mudar o select, já atualiza
+        select.addEventListener('change', atualizarResumoMoagem);
+    }
+
+    // ===== FUNÇÃO DE SCROLL COM OFFSET =====
+    function scrollToSection(element) {
+        if (!element) return;
+        const navbar = document.querySelector('.tabs-nav');
+        const navbarHeight = navbar ? navbar.offsetHeight : 0;
+        const offset = 20; // margem extra
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = elementPosition - navbarHeight - offset;
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
+    }
+
+    // ===== ABRIR/FECHAR MODAL MOAGEM =====
+    const modalMoida = document.getElementById('modalMoida');
+    function abrirModalMoagem() { popularSelectCarnes(); modalMoida.classList.add('active'); atualizarResumoMoagem(); }
+    function fecharModalMoagem() { modalMoida.classList.remove('active'); }
+    document.querySelector('#modalMoida .close-modal')?.addEventListener('click', fecharModalMoagem);
+    modalMoida.addEventListener('click', (e) => { if(e.target === modalMoida) fecharModalMoagem(); });
+    document.getElementById('abrirModalBtn')?.addEventListener('click', abrirModalMoagem);
+
+    // ===== FUNÇÃO OPEN TAB COM SCROLL SUAVE COM OFFSET =====
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    function openTab(tabId) {
+        // Troca as abas
+        tabContents.forEach(c => c.classList.remove('active'));
+        const targetSection = document.getElementById(tabId);
+        if(targetSection) targetSection.classList.add('active');
+        tabBtns.forEach(btn => { btn.classList.remove('active'); if(btn.dataset.tab === tabId) btn.classList.add('active'); });
+
+        // Rola suavemente até o título da seção (com offset)
+        if(targetSection) {
+            const titulo = targetSection.querySelector('.section-title');
+            if(titulo) {
+                scrollToSection(titulo);
+            } else {
+                // fallback: rola para a própria seção
+                scrollToSection(targetSection);
+            }
+        }
+
+        // Se for a aba de carne moída, abre o modal
+        if(tabId === 'tab-moida') abrirModalMoagem();
+    }
+    tabBtns.forEach(btn => btn.addEventListener('click', () => openTab(btn.dataset.tab)));
+
+    // ===== ADICIONAR MOAGEM AO CARRINHO =====
     document.getElementById('addMoagemCarrinho')?.addEventListener('click', () => {
         const select = document.getElementById('carneSelect');
         const isOutro = select.value === "outro";
@@ -1541,8 +1749,10 @@
         fecharModalMoagem();
         document.getElementById('customNomeCarne').value = '';
         document.getElementById('customPrecoCarne').value = '';
-        if(customGroup) customGroup.classList.remove('show');
+        document.getElementById('customMeatGroup').classList.remove('show');
     });
+
+    // ===== OUTROS EVENTOS (produtos, dicas, etc) =====
     document.querySelectorAll('.add-to-cart').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const card = btn.closest('.product-card');
@@ -1556,22 +1766,8 @@
             }
         });
     });
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-    function openTab(tabId) {
-        tabContents.forEach(c => c.classList.remove('active'));
-        document.getElementById(tabId)?.classList.add('active');
-        tabBtns.forEach(btn => { btn.classList.remove('active'); if(btn.dataset.tab === tabId) btn.classList.add('active'); });
-        if(tabId === 'tab-moida') abrirModalMoagem();
-    }
-    tabBtns.forEach(btn => btn.addEventListener('click', () => openTab(btn.dataset.tab)));
-    const modalMoida = document.getElementById('modalMoida');
-    function abrirModalMoagem() { popularSelectCarnes(); modalMoida.classList.add('active'); }
-    function fecharModalMoagem() { modalMoida.classList.remove('active'); }
-    document.querySelector('#modalMoida .close-modal')?.addEventListener('click', fecharModalMoagem);
-    modalMoida.addEventListener('click', (e) => { if(e.target === modalMoida) fecharModalMoagem(); });
-    document.getElementById('abrirModalBtn')?.addEventListener('click', abrirModalMoagem);
-    
+
+    // DICAS
     const modalDicas = document.getElementById('modalDicas');
     const dicaTituloSpan = document.getElementById('dicaTitulo');
     const listaCarnesDiv = document.getElementById('listaCarnesModal');
@@ -1628,7 +1824,8 @@
         adicionarAoCarrinho(nomeLimpo, precoKg, peso, `Sugestão: ${tipoPreparo}`);
         fecharModalDicas();
     });
-    
+
+    // PEDIDO
     const modalPedido = document.getElementById('modalPedido');
     function abrirModalPedido() { renderizarCarrinhoModal(); modalPedido.classList.add('active'); }
     function fecharModalPedido() { modalPedido.classList.remove('active'); }
@@ -1637,21 +1834,30 @@
     document.getElementById('btnMeuPedidoFooter').addEventListener('click', abrirModalPedido);
     document.getElementById('btnEscolherMais').addEventListener('click', fecharModalPedido);
     document.getElementById('btnFinalizarPedido').addEventListener('click', () => { if(enviarPedidoCompleto()) fecharModalPedido(); });
-    
+
+    // EDIÇÃO
     document.querySelector('.close-edicao')?.addEventListener('click', fecharModalEdicao);
     document.getElementById('btnCancelarEdicao')?.addEventListener('click', fecharModalEdicao);
     document.getElementById('btnSalvarEdicao')?.addEventListener('click', salvarEdicao);
     document.getElementById('modalEdicao')?.addEventListener('click', (e) => { if(e.target === document.getElementById('modalEdicao')) fecharModalEdicao(); });
-    
+
     window.editarItemCarrinho = editarItemCarrinho;
     window.removerDoCarrinho = removerDoCarrinho;
-    
+
+    // ========== INICIALIZAÇÃO ==========
     carregarCarrinho();
     openTab('tab-bovina');
     configurarEventosTotais();
     configurarToggles();
     configurarCamposCondicionais();
     popularSelectCarnes();
+    configurarModalMoagem(); // eventos do resumo
+    // Atualiza resumo ao abrir o modal
+    document.getElementById('modalMoida').addEventListener('transitionend', function(e) {
+        if (e.propertyName === 'opacity' && this.classList.contains('active')) {
+            atualizarResumoMoagem();
+        }
+    });
 </script>
 </body>
 </html>
