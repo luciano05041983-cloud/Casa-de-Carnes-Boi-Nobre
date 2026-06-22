@@ -15,6 +15,96 @@
             line-height:1.3;
             padding-bottom:100px;
         }
+        /* ===== SPLASH SCREEN PREMIUM ===== */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #1e1510 0%, #2b1e12 50%, #1e1510 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #splash-screen.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .splash-content {
+            text-align: center;
+            overflow: hidden;
+            width: 100%;
+            padding: 1rem;
+        }
+        .splash-image {
+            display: block;
+            max-width: 85%;
+            max-height: 70vh;
+            margin: 0 auto;
+            transform: translateY(120%);
+            animation: slideUp 1.2s ease forwards;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+            border-radius: 20px;
+            border: 3px solid #c9a03d;
+            box-shadow: 0 0 40px rgba(201, 160, 61, 0.3);
+        }
+        @keyframes slideUp {
+            0% { transform: translateY(120%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        .splash-brand {
+            margin-top: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            color: #f3d382;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 20px rgba(201,160,61,0.3);
+            opacity: 0;
+            animation: fadeIn 1s ease 0.8s forwards;
+        }
+        .splash-brand small {
+            display: block;
+            font-size: 0.9rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            color: #e6c87a;
+            letter-spacing: 4px;
+            margin-top: 0.3rem;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        .splash-loader {
+            margin-top: 1.5rem;
+            width: 60px;
+            height: 4px;
+            background: #3d2a1a;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            animation: fadeIn 0.6s ease 1.2s forwards;
+        }
+        .splash-loader::after {
+            content: '';
+            display: block;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(90deg, #c9a03d, #f3d382);
+            border-radius: 4px;
+            animation: loadBar 1.8s ease forwards;
+        }
+        @keyframes loadBar {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(250%); }
+        }
+
+        /* ===== RESTO DO ESTILO ===== */
         .header {
             background:linear-gradient(135deg,#2b1e12 0%,#3d2a1a 100%);
             color:#f3d382;
@@ -89,6 +179,34 @@
             scroll-margin-top: 80px;
         }
         .title-wrapper { text-align:center; margin-bottom:0.8rem; }
+        /* Banner promocional abaixo do título */
+        .banner-promo {
+            max-width: 900px;
+            margin: 0 auto 1.2rem auto;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border: 2px solid #c9a03d;
+        }
+        .banner-promo img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        /* Banner dentro do modal */
+        .banner-modal {
+            max-width: 100%;
+            margin: 0.8rem 0 1rem 0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border: 2px solid #c9a03d;
+        }
+        .banner-modal img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
         .products-grid {
             display:grid;
             grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
@@ -185,6 +303,118 @@
         }
         .products-grid-hidden { display:none; margin-top:0.8rem; }
         .products-grid-hidden.show { display:grid; }
+        
+        /* ===== ANÚNCIO ÚNICO (formato 16:5) ===== */
+        .ad-single {
+            max-width: 900px;
+            margin: 1.5rem auto 0;
+            background: linear-gradient(145deg, #fff7e8, #fff0db);
+            border-radius: 24px;
+            border: 3px solid #c9a03d;
+            aspect-ratio: 16 / 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1.2rem;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .ad-single:hover {
+            transform: scale(1.01);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+        .ad-single::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(201,160,61,0.08), transparent 70%);
+            pointer-events: none;
+        }
+        .ad-single-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.1rem;
+            width: 100%;
+            justify-content: center;
+        }
+        .ad-single i {
+            font-size: 1.8rem;
+            color: #b85c1a;
+        }
+        .ad-single h4 {
+            font-weight: 800;
+            color: #3d2a1a;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+        .ad-single p {
+            font-size: 0.7rem;
+            color: #5c3e2a;
+            max-width: 90%;
+            line-height: 1.2;
+            margin: 0.1rem 0;
+        }
+        .ad-single .ad-phone {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #25d366;
+            color: white;
+            text-decoration: none;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.7rem;
+            transition: 0.2s;
+            margin-top: 0.1rem;
+        }
+        .ad-single .ad-phone:hover {
+            background-color: #128C7E;
+            transform: scale(1.03);
+        }
+        .ad-single .badge {
+            background: #c9a03d;
+            color: #2c1a0c;
+            font-weight: 700;
+            font-size: 0.55rem;
+            padding: 0.05rem 0.5rem;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        /* Ajustes para telas menores mantendo a proporção 16:5 */
+        @media (max-width:680px) {
+            .ad-single {
+                padding: 0.4rem 0.8rem;
+            }
+            .ad-single i { font-size: 1.4rem; }
+            .ad-single h4 { font-size: 0.85rem; }
+            .ad-single p { font-size: 0.6rem; max-width: 95%; }
+            .ad-single .ad-phone { font-size: 0.6rem; padding: 0.15rem 0.8rem; }
+            .ad-single .badge { font-size: 0.5rem; }
+        }
+        @media (max-width:480px) {
+            .ad-single {
+                padding: 0.3rem 0.6rem;
+            }
+            .ad-single i { font-size: 1.2rem; }
+            .ad-single h4 { font-size: 0.75rem; }
+            .ad-single p { font-size: 0.55rem; }
+            .ad-single .ad-phone { font-size: 0.55rem; padding: 0.1rem 0.6rem; }
+            .ad-single .badge { font-size: 0.45rem; }
+        }
+
+        /* Anúncios antigos (grade) - mantido para compatibilidade */
         .ads-container {
             display:grid;
             grid-template-columns:1fr 1fr;
@@ -217,6 +447,7 @@
             font-size:0.7rem;
             margin-top:0.4rem;
         }
+
         footer {
             background-color:#1e1510;
             color:#ddc8a8;
@@ -235,22 +466,94 @@
         .footer-col h4 { color:#eace8c; margin-bottom:0.4rem; font-size:0.85rem; }
         .footer-col p, .footer-col a { color:#ccb88a; text-decoration:none; font-size:0.65rem; display:block; }
         .copyright { text-align:center; border-top:1px solid #3f2d1f; padding-top:1rem; margin-top:1rem; font-size:0.6rem; }
-        .float-whatsapp {
-            position:fixed;
-            bottom:20px;
-            right:20px;
-            background-color:#25d366;
-            color:white;
-            border-radius:50%;
-            width:55px;
-            height:55px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:1.8rem;
-            z-index:1000;
-            text-decoration:none;
+
+        /* ===== BOTÃO COMPARTILHAR + WHATSAPP FLUTUANTES ===== */
+        .float-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
         }
+        .float-whatsapp {
+            background-color: #25d366;
+            color: white;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            text-decoration: none;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+        }
+        .float-whatsapp:hover {
+            transform: scale(1.05);
+        }
+        .float-share {
+            background: linear-gradient(135deg, #c9a03d, #e6b422);
+            color: #1e1510;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+            border: none;
+        }
+        .float-share:hover {
+            transform: scale(1.05);
+        }
+        .float-share i {
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        .share-tooltip {
+            position: fixed;
+            bottom: 95px;
+            right: 20px;
+            background: #2b1e12;
+            color: #f3d382;
+            padding: 0.8rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            max-width: 260px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            border: 1px solid #c9a03d;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+            z-index: 1001;
+        }
+        .share-tooltip.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .share-tooltip i {
+            color: #e6b422;
+            margin-right: 6px;
+        }
+        .share-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 18px;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #2b1e12;
+        }
+
         .btn-meu-pedido {
             position:fixed;
             bottom:20px;
@@ -444,17 +747,20 @@
         @media (max-width:680px) {
             .products-grid { grid-template-columns:1fr; }
             .dicas-grid { gap:0.5rem; }
-            .ads-container { gap:0.8rem; }
             .btn-meu-pedido { bottom:15px; left:15px; padding:0.5rem 1rem; font-size:0.9rem; }
-            .float-whatsapp { bottom:15px; right:15px; width:48px; height:48px; font-size:1.5rem; }
+            .float-whatsapp { width:48px; height:48px; font-size:1.5rem; }
+            .float-share { width:44px; height:44px; font-size:1.3rem; }
             .modal-pedido-container { max-width:95%; padding:0.8rem; }
             .logo-img { max-width: 100px; }
+            .share-tooltip { right: 10px; max-width: 200px; font-size: 0.7rem; }
         }
         @media (max-width:480px) {
             .dica-card { padding:0.4rem 0.3rem; }
             .dica-card h3 { font-size:0.8rem; }
             .dica-card i { font-size:1.1rem; }
             .logo-img { max-width: 85px; }
+            .splash-brand { font-size: 1.4rem; }
+            .splash-image { max-width: 95%; }
         }
         .modal-overlay {
             position:fixed;
@@ -527,6 +833,18 @@
 </head>
 <body>
 
+<!-- ===== SPLASH SCREEN ===== -->
+<div id="splash-screen">
+    <div class="splash-content">
+        <img src="https://i.ibb.co/jP0GbVPB/1000268547-removebg-preview-1.png" alt="Boi Nobre" class="splash-image">
+        <div class="splash-brand">
+            BOI NOBRE
+            <small>Cortes Nobres · Sabor e Tradição</small>
+        </div>
+        <div class="splash-loader"></div>
+    </div>
+</div>
+
 <header class="header">
     <div class="logo-container">
         <a href="https://imgbb.com/" target="_blank" rel="noopener noreferrer">
@@ -560,6 +878,9 @@
     <!-- SEÇÃO CARNE BOVINA -->
     <section id="tab-bovina" class="tab-content active">
         <div class="title-wrapper"><h2 class="section-title">🐂 Carne Bovina</h2></div>
+        <div class="banner-promo">
+            <img src="https://i.ibb.co/WvpRycP2/Screenshot-20260621-201613-Fotos.png" alt="Promoção Boi Nobre">
+        </div>
         <div class="products-grid" id="bovina-visible-grid">
             <div class="product-card" data-name="Picanha" data-price="94.99"><div class="card-inner"><div class="product-name"><span>Corte Nobre</span> Picanha</div><div class="product-desc">Peça tradicional, suculenta.</div><div class="product-price">R$ 94,99 <small>/kg</small></div><div class="product-total">R$ 94,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Contra-filé" data-price="62.99"><div class="card-inner"><div class="product-name"><span>Corte Nobre</span> Contra-filé</div><div class="product-desc">Marmorizado, ótimo para churrasco.</div><div class="product-price">R$ 62,99 <small>/kg</small></div><div class="product-total">R$ 62,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
@@ -597,12 +918,24 @@
             <div class="product-card" data-name="Hambúrguer" data-price="36.99"><div class="card-inner"><div class="product-name"><span>Hambúrguer</span> Hambúrguer artesanal</div><div class="product-desc">Puro carne bovina.</div><div class="product-price">R$ 36,99 <small>/kg</small></div><div class="product-total">R$ 36,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
         </div>
         <button class="toggle-products-btn" data-section="bovina">Mostrar mais carnes</button>
-        <div class="ads-container"><div class="ad-card"><i class="fas fa-chalkboard-user"></i><h4>Espaço para Anunciante</h4><p>Destaque seu negócio!</p><a href="https://wa.me/5534991058994" class="ad-phone"><i class="fab fa-whatsapp"></i> (34) 99105-8994</a></div><div class="ad-card"><i class="fas fa-bullhorn"></i><h4>Seu Anúncio Aqui</h4><p>Divulgue sua marca.</p><a href="https://wa.me/5534991058994" class="ad-phone"><i class="fab fa-whatsapp"></i> (34) 99105-8994</a></div></div>
+        <!-- ANÚNCIO ÚNICO FORMATO 16:5 -->
+        <div class="ad-single">
+            <div class="ad-single-content">
+                <span class="badge"><i class="fas fa-bullhorn"></i> ÚLTIMA VAGA!</span>
+                <i class="fas fa-chalkboard-user"></i>
+                <h4>Destaque sua marca aqui!</h4>
+                <p>Seu negócio com visibilidade para milhares de clientes. Faturamento em alta! Garanta já sua vaga.</p>
+                <a href="https://wa.me/5534991058994" class="ad-phone"><i class="fab fa-whatsapp"></i> (34) 99105-8994</a>
+            </div>
+        </div>
     </section>
 
-    <!-- SEÇÃO CARNE SUÍNA (ATUALIZADA COM TODOS OS ITENS) -->
+    <!-- SEÇÃO CARNE SUÍNA -->
     <section id="tab-suina" class="tab-content">
         <div class="title-wrapper"><h2 class="section-title">🐷 Carne Suína</h2></div>
+        <div class="banner-promo">
+            <img src="https://i.ibb.co/JW06Y52p/Screenshot-20260621-201705-Fotos.png" alt="Promoção Carne Suína">
+        </div>
         <div class="products-grid" id="suina-visible-grid">
             <div class="product-card" data-name="Pernil" data-price="27.99"><div class="card-inner"><div class="product-name"><span>Assado</span> Pernil</div><div class="product-desc">Suculento, ideal para assar.</div><div class="product-price">R$ 27,99 <small>/kg</small></div><div class="product-total">R$ 27,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Lombo" data-price="31.99"><div class="card-inner"><div class="product-name"><span>Magro</span> Lombo</div><div class="product-desc">Macio e versátil.</div><div class="product-price">R$ 31,99 <small>/kg</small></div><div class="product-total">R$ 31,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
@@ -618,12 +951,24 @@
             <div class="product-card" data-name="Orelha" data-price="21.99"><div class="card-inner"><div class="product-name"><span>Miúdo</span> Orelha</div><div class="product-desc">Para feijoada.</div><div class="product-price">R$ 21,99 <small>/kg</small></div><div class="product-total">R$ 21,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
         </div>
         <button class="toggle-products-btn" data-section="suina">Mostrar mais carnes</button>
-        <div class="ads-container"><div class="ad-card"><i class="fas fa-chalkboard-user"></i><h4>Anuncie aqui</h4><a href="https://wa.me/5534991058994" class="ad-phone">(34) 99105-8994</a></div><div class="ad-card"><i class="fas fa-bullhorn"></i><h4>Divulgue seu negócio</h4><a href="https://wa.me/5534991058994" class="ad-phone">WhatsApp</a></div></div>
+        <!-- ANÚNCIO ÚNICO FORMATO 16:5 -->
+        <div class="ad-single">
+            <div class="ad-single-content">
+                <span class="badge"><i class="fas fa-bullhorn"></i> ATENÇÃO EMPRESÁRIO!</span>
+                <i class="fas fa-bullhorn"></i>
+                <h4>Seu negócio aqui!</h4>
+                <p>Aumente suas vendas com visibilidade para milhares de clientes. Últimas vagas disponíveis!</p>
+                <a href="https://wa.me/5534991058994" class="ad-phone"><i class="fab fa-whatsapp"></i> (34) 99105-8994</a>
+            </div>
+        </div>
     </section>
 
-    <!-- SEÇÃO FRANGO (resumida) -->
+    <!-- SEÇÃO FRANGO -->
     <section id="tab-frango" class="tab-content">
         <div class="title-wrapper"><h2 class="section-title">🐔 Frango</h2></div>
+        <div class="banner-promo">
+            <img src="https://i.ibb.co/Y7W4jCbN/Screenshot-20260621-202108-Fotos.png" alt="Promoção Frango">
+        </div>
         <div class="products-grid" id="frango-visible-grid">
             <div class="product-card" data-name="Frango assado" data-price="49.99"><div class="card-inner"><div class="product-name"><span>Assado</span> Frango assado</div><div class="product-desc">Peça inteira pronta para assar.</div><div class="product-price">R$ 49,99 <small>/kg</small></div><div class="product-total">R$ 49,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
             <div class="product-card" data-name="Filé de peito" data-price="34.99"><div class="card-inner"><div class="product-name"><span>Filé</span> Filé de peito</div><div class="product-desc">Peito de frango sem osso.</div><div class="product-price">R$ 34,99 <small>/kg</small></div><div class="product-total">R$ 34,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
@@ -644,21 +989,43 @@
             <div class="product-card" data-name="Fran bacon" data-price="59.99"><div class="card-inner"><div class="product-name"><span>Especial</span> Fran bacon</div><div class="product-desc">Filé enrolado com bacon.</div><div class="product-price">R$ 59,99 <small>/kg</small></div><div class="product-total">R$ 59,99</div><div class="quantity-control"><label>kg:</label><input type="number" step="0.1" min="0.1" value="1.0" class="kg-input"></div><button class="btn-whatsapp add-to-cart"><i class="fab fa-whatsapp"></i> Adicionar</button></div></div>
         </div>
         <button class="toggle-products-btn" data-section="frango">Mostrar mais carnes</button>
-        <div class="ads-container"><div class="ad-card"><i class="fas fa-chalkboard-user"></i><h4>Anuncie aqui</h4><a href="https://wa.me/5534991058994" class="ad-phone">(34) 99105-8994</a></div><div class="ad-card"><i class="fas fa-bullhorn"></i><h4>Seu espaço</h4><a href="https://wa.me/5534991058994" class="ad-phone">WhatsApp</a></div></div>
+        <!-- ANÚNCIO ÚNICO FORMATO 16:5 -->
+        <div class="ad-single">
+            <div class="ad-single-content">
+                <span class="badge"><i class="fas fa-bullhorn"></i> VAGAS LIMITADAS!</span>
+                <i class="fas fa-bullhorn"></i>
+                <h4>Anuncie agora e venda mais!</h4>
+                <p>Seu negócio exposto para centenas de clientes todos os dias. Não perca essa oportunidade!</p>
+                <a href="https://wa.me/5534991058994" class="ad-phone"><i class="fab fa-whatsapp"></i> (34) 99105-8994</a>
+            </div>
+        </div>
     </section>
 
     <!-- SEÇÃO CARNE MOÍDA -->
     <section id="tab-moida" class="tab-content">
+        <div class="title-wrapper"><h2 class="section-title">🥩 Carne Moída</h2></div>
         <div class="moida-placeholder"><i class="fas fa-blender"></i><p><strong>Moagem de carnes</strong></p><p>Escolha o corte bovino, peso e quantas vezes moer.</p><button id="abrirModalBtn" style="background:#c9a03d; border:none; padding:0.5rem 1rem; border-radius:40px; font-weight:bold; font-size:0.8rem;"><i class="fas fa-arrow-right"></i> Escolher carne para moer</button></div>
-        <div class="ads-container"><div class="ad-card"><i class="fas fa-chalkboard-user"></i><h4>Anuncie aqui</h4><a href="https://wa.me/5534991058994" class="ad-phone">(34) 99105-8994</a></div><div class="ad-card"><i class="fas fa-bullhorn"></i><h4>Seu anúncio</h4><a href="https://wa.me/5534991058994" class="ad-phone">WhatsApp</a></div></div>
+        <!-- ANÚNCIO ÚNICO FORMATO 16:5 -->
+        <div class="ad-single">
+            <div class="ad-single-content">
+                <span class="badge"><i class="fas fa-bullhorn"></i> OPORTUNIDADE ÚNICA!</span>
+                <i class="fas fa-bullhorn"></i>
+                <h4>Anuncie e alavanque seu negócio!</h4>
+                <p>Milhares de clientes veem esta página todos os dias. Não fique de fora! Garanta já seu espaço.</p>
+                <a href="https://wa.me/5534991058994" class="ad-phone"><i class="fab fa-whatsapp"></i> (34) 99105-8994</a>
+            </div>
+        </div>
     </section>
 </main>
 
-<!-- MODAL MOAGEM (mantido igual) -->
+<!-- MODAL MOAGEM -->
 <div id="modalMoida" class="modal-overlay">
     <div class="modal-container">
         <span class="close-modal">&times;</span>
         <h3><i class="fas fa-blender"></i> Moer Carne</h3>
+        <div class="banner-modal">
+            <img src="https://i.ibb.co/bjDgDtCH/Screenshot-20260621-201726-Fotos.png" alt="Moagem de Carnes">
+        </div>
         <div class="form-group"><label>Selecione a carne bovina desejada:</label><select id="carneSelect"></select></div>
         <div id="customMeatGroup" class="custom-meat-group">
             <div class="form-group"><label>Nome da carne (personalizado):</label><input type="text" id="customNomeCarne" placeholder="Ex.: Carne de sol"></div>
@@ -672,7 +1039,7 @@
     </div>
 </div>
 
-<!-- MODAL DICAS (mantido igual) -->
+<!-- MODAL DICAS -->
 <div id="modalDicas" class="modal-dicas">
     <div class="modal-dicas-container">
         <div class="modal-dicas-header"><h3 id="dicaTitulo">Dica</h3><span class="close-dicas">&times;</span></div>
@@ -687,7 +1054,7 @@
     </div>
 </div>
 
-<!-- MODAL MEU PEDIDO (mantido igual) -->
+<!-- MODAL MEU PEDIDO -->
 <div id="modalPedido" class="modal-pedido">
     <div class="modal-pedido-container">
         <div class="modal-pedido-header"><h3><i class="fas fa-shopping-bag"></i> Meu Pedido</h3><span class="close-pedido">&times;</span></div>
@@ -705,7 +1072,7 @@
     </div>
 </div>
 
-<!-- MODAL DE EDIÇÃO (NOVO) -->
+<!-- MODAL EDIÇÃO -->
 <div id="modalEdicao" class="modal-edicao">
     <div class="modal-edicao-container">
         <div class="modal-edicao-header">
@@ -736,10 +1103,70 @@
     <div class="copyright">© 2026 Casa de Carne Boi Nobre</div>
 </footer>
 
+<!-- Botão Meu Pedido (esquerda) -->
 <button id="btnMeuPedidoFooter" class="btn-meu-pedido"><i class="fas fa-shopping-cart"></i> Meu Pedido <span id="carrinhoCount">(0)</span></button>
-<a href="https://wa.me/5534998915390" class="float-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+<!-- Botões flutuantes (direita) -->
+<div class="float-buttons">
+    <button class="float-share" id="btnShare" title="Compartilhar cardápio">
+        <i class="fas fa-share-alt"></i>
+    </button>
+    <a href="https://wa.me/5534998915390" class="float-whatsapp" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
+
+<!-- Tooltip de compartilhamento -->
+<div id="shareTooltip" class="share-tooltip">
+    <i class="fas fa-link"></i> Link copiado! <br>
+    <span style="font-weight:400; font-size:0.7rem;">Compartilhe com a família e amigos e levem o melhor da carne nobre para casa! 🥩</span>
+</div>
 
 <script>
+    // ========== SPLASH SCREEN ==========
+    (function() {
+        const splash = document.getElementById('splash-screen');
+        setTimeout(() => {
+            splash.classList.add('hide');
+        }, 3000);
+    })();
+
+    // ========== COMPARTILHAR ==========
+    document.getElementById('btnShare').addEventListener('click', function() {
+        const link = 'https://luciano05041983-cloud.github.io/Casa-de-Carnes-Boi-Nobre/';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(link).then(() => {
+                mostrarTooltip();
+            }).catch(() => {
+                fallbackCopiar(link);
+            });
+        } else {
+            fallbackCopiar(link);
+        }
+    });
+
+    function fallbackCopiar(texto) {
+        const textarea = document.createElement('textarea');
+        textarea.value = texto;
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            mostrarTooltip();
+        } catch (e) {
+            alert('Não foi possível copiar. Copie manualmente: ' + texto);
+        }
+        document.body.removeChild(textarea);
+    }
+
+    function mostrarTooltip() {
+        const tooltip = document.getElementById('shareTooltip');
+        tooltip.classList.add('show');
+        setTimeout(() => {
+            tooltip.classList.remove('show');
+        }, 5000);
+    }
+
     // ========== CARRINHO GLOBAL ==========
     let carrinho = [];
 
@@ -770,7 +1197,6 @@
         salvarCarrinho();
         renderizarCarrinhoModal();
     }
-    // Variável para guardar o ID do item que está sendo editado
     let editandoItemId = null;
     function abrirModalEdicao(id) {
         const item = carrinho.find(i => i.id == id);
@@ -802,7 +1228,6 @@
         document.getElementById('modalEdicao').classList.remove('active');
         editandoItemId = null;
     }
-    // Substitui a função antiga editarItemCarrinho
     function editarItemCarrinho(id) {
         abrirModalEdicao(id);
     }
@@ -884,7 +1309,7 @@
         toggleEndereco(); toggleTroco();
     }
     
-    // Funções auxiliares já existentes (totais, toggles, etc.) mantidas
+    // Funções auxiliares
     function atualizarTotalCard(card) {
         const preco = parseFloat(card.getAttribute('data-price'));
         const kgInput = card.querySelector('.kg-input');
@@ -1071,7 +1496,6 @@
     document.getElementById('btnEscolherMais').addEventListener('click', fecharModalPedido);
     document.getElementById('btnFinalizarPedido').addEventListener('click', () => { if(enviarPedidoCompleto()) fecharModalPedido(); });
     
-    // Eventos do modal de edição
     document.querySelector('.close-edicao')?.addEventListener('click', fecharModalEdicao);
     document.getElementById('btnCancelarEdicao')?.addEventListener('click', fecharModalEdicao);
     document.getElementById('btnSalvarEdicao')?.addEventListener('click', salvarEdicao);
